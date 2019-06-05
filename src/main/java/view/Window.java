@@ -21,7 +21,10 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
+/**
+ * A class used for the main GUI window.
+ * @author Owen Salvage
+ */
 public class Window extends Application implements Initializable {
 
     @FXML private BorderPane root;
