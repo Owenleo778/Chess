@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Slider?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.BorderPane?>
+
+
+<BorderPane prefHeight="385.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+   <top>
+      <Button fx:id="button" mnemonicParsing="false" prefHeight="41.0" prefWidth="121.0" text="Button" BorderPane.alignment="CENTER" />
+   </top>
+   <left>
+      <TextField fx:id="textf" prefHeight="198.0" prefWidth="136.0" text="hi" BorderPane.alignment="CENTER" />
+   </left>
+   <center>
+      <Slider fx:id="slider" min="1.0" prefHeight="0.0" prefWidth="496.0" value="10.0" BorderPane.alignment="CENTER" />
+   </center>
+</BorderPane>
