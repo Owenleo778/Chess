@@ -1,4 +1,6 @@
-package chessmodel;
+package chessmodel.pieces;
+
+import chessmodel.Move;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -9,15 +11,16 @@ import java.util.ArrayList;
  */
 public abstract class Piece {
 
-    private String colour;
+    public final static int BLACK = 1;
+    public final static int WHITE = -1;
+    private int colour;
 
-    public Piece(String colour){
+    public Piece(int colour){
+        if (colour != BLACK && colour != WHITE){
+            System.err.println("Pieces must be black or white");
+            System.exit(0);
+        }
         this.colour = colour;
-    }
-
-    @Override
-    public String toString() {
-        return "A " + colour + " piece.";
     }
 
     /**
