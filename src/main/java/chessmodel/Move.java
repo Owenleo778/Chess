@@ -8,8 +8,8 @@ import java.awt.*;
  */
 public class Move {
 
-    Point p1;
-    Point p2;
+    public Point p1;
+    public Point p2;
 
     public Move(Point p1, Point p2){
         if (!Board.inRange(p1) || !Board.inRange(p2)){
