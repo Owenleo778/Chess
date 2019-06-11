@@ -1,4 +1,4 @@
-package chessmodel.pieces;
+package chessmodel.piece;
 
 import chessmodel.Board;
 
@@ -19,13 +19,7 @@ public class Bishop extends Piece {
         int xDiff = p2.x - p1.x;
         int yDiff = p2.y - p1.y;
         if (Math.abs(xDiff) == Math.abs(yDiff) && xDiff != 0){
-            int xDir = xDiff / Math.abs(xDiff);
-            int yDir = yDiff / Math.abs(yDiff);
-            for (int i = 1 ; i <  Math.abs(xDiff); i++){ // Checks all spaces in between are empty
-                if (!board.isEmptySpace(p1.x + i * xDir, p1.y + i * yDir))
-                    return false;
-            }
-            return  validEndPos(board, p2);
+            return emptyStraight(board, p1, p2);
         }
 
         return false;

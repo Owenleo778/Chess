@@ -1,6 +1,6 @@
 package chessmodel;
 
-import chessmodel.pieces.*;
+import chessmodel.piece.*;
 
 import java.awt.*;
 
@@ -17,11 +17,11 @@ public class Board {
         board = new Piece[8][8];
         turn = Piece.WHITE;
 
-        board[1][1] = new Bishop(1);
-        board[0][0] =  new Pawn(-1);
+        board[1][1] = new Rook(1);
+        board[5][1] =  new Pawn(-1);
         //board[2][2] =  new Pawn(-1);
 
-        System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(0, 0)));
+        System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(2, 3)));
     }
 
     public static void main(String[] args) {

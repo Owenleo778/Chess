@@ -1,4 +1,4 @@
-package chessmodel.pieces;
+package chessmodel.piece;
 
 import chessmodel.Board;
 
@@ -53,12 +53,42 @@ public abstract class Piece {
     }
 
     /**
+     * Checks if all the spaces between the two points are empty
+     * @param board the Board containing all of the Piece information
+     * @param p1 the start point
+     * @param p2 the end point
+     * @return true if it's clear, false otherwise
+     */
+    protected boolean emptyStraight(Board board, Point p1, Point p2) {
+        int xDiff = p2.x - p1.x;
+        int yDiff = p2.y - p1.y;
+        int xDir;
+        int yDir;
+        if (xDiff == 0){
+            xDir = 0;
+        } else {
+            xDir = xDiff / Math.abs(xDiff);
+        }
+        if (yDiff == 0) {
+            yDir = 0;
+        } else {
+            yDir = yDiff / Math.abs(yDiff);
+        }
+
+        int max = Math.max( Math.abs(xDiff),  Math.abs(yDiff));
+        for (int i = 1; i < max; i++) { // Checks all spaces in between are empty
+            if (!board.isEmptySpace(p1.x + i * xDir, p1.y + i * yDir))
+                return false;
+        }
+        return validEndPos(board, p2);
+    }
+
+    /**
      * Returns the colour of the piece
      * @return the colour
      */
     public int getColour(){
         return colour;
     }
-
 
 }
