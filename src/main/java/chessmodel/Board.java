@@ -44,8 +44,13 @@ public class Board {
         return inRange(p.x) && inRange(p.y) && board[p.x][p.y] == null;
     }
 
-    void movePiece(Point startPos,Point endPos){
+    void movePiece(Point sP, Point eP){
+        if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].canMove(board, sP, eP)){
 
+            board[eP.x][eP.y] =  board[sP.x][sP.y];
+            board[sP.x][sP.y] = null ;
+
+        }
     }
 
 }

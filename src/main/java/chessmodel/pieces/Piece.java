@@ -25,17 +25,24 @@ public abstract class Piece {
 
     /**
      * Returns a list of all possible moves
+     * @param board the position of all pieces in play
      * @param p the position of the piece
      * @return the list of possible moves
      */
-    public abstract ArrayList<Move> getMoves(Point p);
+    public abstract ArrayList<Move> getMoves(Piece[][] board, Point p);
 
     /**
      * Returns true if this piece can move in the specified way
-     * @param m the move
+     * @param board the position of all pieces in play
+     * @param p1 the start position
+     * @param p2 the end position
      * @return true
      */
-    public abstract boolean canMove (Move m);
+    public abstract boolean canMove (Piece[][] board, Point p1, Point p2);
+
+    public int getColour(){
+        return colour;
+    }
 
 
 }
