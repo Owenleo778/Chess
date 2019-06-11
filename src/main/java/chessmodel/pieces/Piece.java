@@ -33,13 +33,24 @@ public abstract class Piece {
     public abstract ArrayList<Point> getMoves(Piece[][] board, Point p);
 
     /**
-     * Returns true if this piece can move in the specified way
+     * Returns true if this piece can move in the specified way. Is only called after both points are verified
      * @param board the class holding information about the pieces
      * @param p1 the start position
      * @param p2 the end position
      * @return true
      */
     public abstract boolean canMove (Board board, Point p1, Point p2);
+
+    /**
+     * Returns true if the point supplied is empty or is occupied by an enemy piece.
+     * SHOULD NOT BE USED FOR THE PAWN CLASS WHEN MOVING FORWARD.
+     * @param board the board class containing the information of the other pieces
+     * @param p the point to check
+     * @return true if it can safely move there, false otherwise
+     */
+    protected boolean validEndPos(Board board, Point p){
+        return board.isEmptySpace(p) || board.getColour(p) != getColour();
+    }
 
     /**
      * Returns the colour of the piece

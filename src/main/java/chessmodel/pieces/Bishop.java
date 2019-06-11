@@ -16,7 +16,7 @@ public class Bishop extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p1, Point p2) {
-        int xDiff = p2.x - p1.x ;
+        int xDiff = p2.x - p1.x;
         int yDiff = p2.y - p1.y;
         if (Math.abs(xDiff) == Math.abs(yDiff) && xDiff != 0){
             int xDir = xDiff / Math.abs(xDiff);
@@ -25,7 +25,7 @@ public class Bishop extends Piece {
                 if (!board.isEmptySpace(p1.x + i * xDir, p1.y + i * yDir))
                     return false;
             }
-            return board.getColour(p2) != getColour();
+            return  validEndPos(board, p2);
         }
 
         return false;
