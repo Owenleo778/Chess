@@ -18,7 +18,8 @@ public class Queen extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p1, Point p2) {
-        //return p2.x - p1.x == 0 ^ p2.y - p1.y == 0 && emptyStraight(board, p1, p2);
-        return false;
+        int xDiff = Math.abs(p2.x - p1.x);
+        int yDiff = Math.abs(p2.y - p1.y);
+        return (xDiff == yDiff && xDiff != 0 || xDiff == 0 ^ yDiff == 0) && emptyStraight(board, p1, p2);
     }
 }

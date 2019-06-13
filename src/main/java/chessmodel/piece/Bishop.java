@@ -18,11 +18,7 @@ public class Bishop extends Piece {
     public boolean canMove(Board board, Point p1, Point p2) {
         int xDiff = p2.x - p1.x;
         int yDiff = p2.y - p1.y;
-        if (Math.abs(xDiff) == Math.abs(yDiff) && xDiff != 0){
-            return emptyStraight(board, p1, p2);
-        }
-
-        return false;
+        return Math.abs(xDiff) == Math.abs(yDiff) && xDiff != 0 &&  emptyStraight(board, p1, p2);
     }
 
 }

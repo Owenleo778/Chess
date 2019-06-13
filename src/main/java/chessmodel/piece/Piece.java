@@ -53,7 +53,7 @@ public abstract class Piece {
     }
 
     /**
-     * Checks if all the spaces between the two points are empty
+     * Checks if all the spaces between the two points are empty ((he final point can also be occupied by an opposing piece)
      * @param board the Board containing all of the Piece information
      * @param p1 the start point
      * @param p2 the end point

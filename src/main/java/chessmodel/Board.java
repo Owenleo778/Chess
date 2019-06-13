@@ -20,7 +20,7 @@ public class Board {
         turn = Piece.WHITE;
 
         board[1][1] = new King(1);
-        board[5][2] = new Rook(-1);
+        board[0][0] = new Queen(-1);
         board[2][3] = new Knight(-1);
 
         //System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(2, 3)));
