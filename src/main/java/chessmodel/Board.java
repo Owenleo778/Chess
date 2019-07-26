@@ -88,19 +88,32 @@ public class Board {
         if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].getColour() == turn){
 
             if(board[sP.x][sP.y].canMove(this, sP, eP)) {
-                Piece p = board[sP.x][sP.y];
-                Piece p2 = board[eP.x][eP.y];
-                board[sP.x][sP.y] = null;
-                board[eP.x][eP.y] = p;
+                Piece p = getPiece(sP);
+                Piece p2 = getPiece(eP);
+                movePiece(p, eP);
                 if (inCheck(turn)) {
-                    board[sP.x][sP.y] = p;
-                    board[eP.x][eP.y] = p2;
+                    movePiece(p, sP);
+                    movePiece(p2, eP);
                     return false;
                 }
                 return true;
             }
         }
         return false;
+    }
+
+    /**
+     * Moves the piece to the specified point
+     * @param p the piece to move
+     * @param pos the point to move to
+     */
+    private void movePiece(Piece p, Point pos){
+        board[p.getPos().x][p.getPos().x] = null;
+        board[pos.x][pos.y] = p;
+    }
+
+    private Piece getPiece(Point p){
+        return board[p.x][p.y];
     }
 
     /**
