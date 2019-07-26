@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class Knight extends Piece{
 
-    public Knight(int colour){
-        super(colour);
+    public Knight(int colour, Point pos){
+        super(colour, pos);
     }
 
     @Override

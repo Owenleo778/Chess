@@ -7,8 +7,8 @@ import java.util.ArrayList;
 
 public class King extends Piece {
 
-    public King(int colour){
-        super(colour);
+    public King(int colour, Point pos){
+        super(colour, pos);
     }
 
     @Override

@@ -10,8 +10,8 @@ import java.util.ArrayList;
  */
 public class Pawn extends Piece {
 
-    public Pawn(int colour){
-        super(colour);
+    public Pawn(int colour, Point pos){
+        super(colour, pos);
     }
 
     @Override

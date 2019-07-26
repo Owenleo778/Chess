@@ -7,12 +7,14 @@ import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
-    public Bishop(int colour){
-        super(colour);
+    public Bishop(int colour, Point pos){
+        super(colour, pos);
     }
 
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
+
+
 
     @Override
     public boolean canMove(Board board, Point p1, Point p2) {

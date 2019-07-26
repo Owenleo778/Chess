@@ -3,6 +3,7 @@ package chessmodel;
 import chessmodel.piece.*;
 
 import java.awt.*;
+import java.util.ArrayList;
 
 /**
  * A class representing the state of the board. x = 0, y = 0 -> top left corner
@@ -12,19 +13,28 @@ public class Board {
 
     private Piece[][] board;
     private int turn;
-    private Point bKing;
-    private Point wKing;
+    private King bKing;
+    private King wKing;
+    private ArrayList<Piece> bPieces;
+    private ArrayList<Piece> wPieces;
 
     public Board(){
         board = new Piece[8][8];
         turn = Piece.WHITE;
 
-        board[1][1] = new King(1);
-        board[0][0] = new Queen(-1);
-        board[2][3] = new Knight(-1);
+        wPieces = new ArrayList<>(16);
+        bPieces = new ArrayList<>(16);
+
+        bKing = new King(Piece.BLACK, new Point(1,1));
+        board[1][1] = bKing;
+        wPieces.add(new Queen(Piece.WHITE, new Point(0, 0)));
+        wPieces.add(new Knight(Piece.WHITE, new Point(2, 3)));
+
+        board[0][0] = wPieces.get(0);
+        board[2][3] = wPieces.get(1);
 
         //System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(2, 3)));
-        System.out.println(verifyCheck(new Point(1, 1)));
+        System.out.println(inCheck(Piece.BLACK));
     }
 
     public static void main(String[] args) {
@@ -78,8 +88,15 @@ public class Board {
         if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].getColour() == turn){
 
             if(board[sP.x][sP.y].canMove(this, sP, eP)) {
-                board[eP.x][eP.y] = board[sP.x][sP.y];
+                Piece p = board[sP.x][sP.y];
+                Piece p2 = board[eP.x][eP.y];
                 board[sP.x][sP.y] = null;
+                board[eP.x][eP.y] = p;
+                if (inCheck(turn)) {
+                    board[sP.x][sP.y] = p;
+                    board[eP.x][eP.y] = p2;
+                    return false;
+                }
                 return true;
             }
         }
@@ -91,21 +108,34 @@ public class Board {
      * @param colour the king to check
      * @return true if the king is in check, false otherwise
      */
-    private boolean verifyCheck(int colour){
+    private boolean inCheck(int colour){
         if (colour == Piece.BLACK){
-            return verifyCheck(bKing);
+            return inCheck(bKing.getPos(), wPieces);
         } else if (colour == Piece.WHITE){
-            return verifyCheck(wKing);
+            return inCheck(wKing.getPos(), bPieces);
         }
         return false;
     }
 
     /**
      * Checks if the king is in check
-     * @param p the position of the king
+     * @param k the position of the king
+     * @param pieces the list of opponents pieces
      * @return true if the king is in check, false otherwise
      */
-    private boolean verifyCheck(Point p){
+    private boolean inCheck(Point k, ArrayList<Piece> pieces){
+
+        for (Piece p : pieces){
+            if (p.canMove(this, k))
+                return true;
+        }
+
+
+        return false;
+    }
+
+    /*
+    private boolean inCheck(Point p){
 
         //Checks in the 8 directions round if any piece is checking the king
         for (int xDir = -1; xDir < 2; xDir++){ // Loops through the x directions
@@ -143,6 +173,32 @@ public class Board {
             }
         }
 
+        return false;
+    }
+
+     */
+
+    /**
+     * Checks if the colour's king is in checkmate
+     * @param colour the king to check
+     * @return true if the king is in checkmate, false otherwise
+     */
+    private boolean verifyMate(int colour){
+        if (colour == Piece.BLACK){
+            return verifyMate(bKing.getPos());
+        } else if (colour == Piece.WHITE){
+            return verifyMate(wKing.getPos());
+        }
+        return false;
+    }
+
+    /**
+     * Checks if the king is in checkmate
+     * @param p the position of the king
+     * @return true if the king is in checkmate, false otherwise
+     */
+    private boolean verifyMate(Point p){
+        // Check if in check first?
         return false;
     }
 

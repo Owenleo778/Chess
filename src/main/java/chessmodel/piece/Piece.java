@@ -15,13 +15,19 @@ public abstract class Piece {
     public final static int BLACK = 1;
     public final static int WHITE = -1;
     private int colour;
+    private Point pos;
 
-    public Piece(int colour){
+    public Piece(int colour, Point pos){
         if (colour != BLACK && colour != WHITE){
             System.err.println("Pieces must be black or white");
             System.exit(0);
         }
         this.colour = colour;
+        if (!Board.inRange(pos)){
+            System.err.println("Pieces given an appropriate position");
+            System.exit(0);
+        }
+        this.pos = pos;
     }
 
     /**
@@ -37,9 +43,19 @@ public abstract class Piece {
      * @param board the class holding information about the pieces
      * @param p1 the start position
      * @param p2 the end position
-     * @return true
+     * @return true if it can make the move, false otherwise
      */
     public abstract boolean canMove (Board board, Point p1, Point p2);
+
+    /**
+     * Returns true if this piece can move to the specified position. Is only called after both points are verified
+     * @param board the class holding information about the pieces
+     * @param p the position to moce to
+     * @return true if it can make the move, false otherwise
+     */
+    public boolean canMove(Board board, Point p) {
+        return canMove(board, getPos(), p);
+    }
 
     /**
      * Returns true if the point supplied is empty or is occupied by an enemy piece.
@@ -84,11 +100,27 @@ public abstract class Piece {
     }
 
     /**
+     * Sets the position of the piece
+     * @param p the position
+     */
+    public void setPos(Point p){
+        pos = p;
+    }
+
+    /**
      * Returns the colour of the piece
      * @return the colour
      */
     public int getColour(){
         return colour;
+    }
+
+    /**
+     * Returns the position of the piece
+     * @return the position
+     */
+    public Point getPos(){
+        return pos;
     }
 
 }
