@@ -11,6 +11,10 @@ public class King extends Piece {
         super(colour, pos);
     }
 
+    public King(int colour){
+        super(colour);
+    }
+
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
 

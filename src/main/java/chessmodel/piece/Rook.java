@@ -11,6 +11,10 @@ public class Rook extends Piece {
         super(colour, pos);
     }
 
+    public Rook(int colour){
+        super(colour);
+    }
+
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) {
         return null;

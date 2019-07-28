@@ -11,6 +11,10 @@ public class Bishop extends Piece {
         super(colour, pos);
     }
 
+    public Bishop(int colour){
+        super(colour);
+    }
+
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
 

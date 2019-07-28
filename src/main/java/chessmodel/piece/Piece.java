@@ -17,16 +17,16 @@ public abstract class Piece {
     private int colour;
     private Point pos;
 
+    public Piece(int colour){
+        this(colour, null);
+    }
+
     public Piece(int colour, Point pos){
         if (colour != BLACK && colour != WHITE){
             System.err.println("Pieces must be black or white");
             System.exit(0);
         }
         this.colour = colour;
-        if (!Board.inRange(pos)){
-            System.err.println("Pieces given an appropriate position");
-            System.exit(0);
-        }
         this.pos = pos;
     }
 

@@ -25,6 +25,14 @@ public class Board {
         wPieces = new ArrayList<>(16);
         bPieces = new ArrayList<>(16);
 
+        addRooks();
+        addKnights();
+        addBishops();
+        addQueens();
+        addKings();
+        addPawns();
+
+        /*
         bKing = new King(Piece.BLACK, new Point(1,1));
         board[1][1] = bKing;
         wPieces.add(new Queen(Piece.WHITE, new Point(0, 0)));
@@ -35,6 +43,101 @@ public class Board {
 
         //System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(2, 3)));
         System.out.println(inCheck(Piece.BLACK));
+         */
+
+        /*
+        for (int y = 0; y < 8; y++) {
+            for (int x = 0; x < 8; x++) {
+                if (board[x][y] != null) {
+                    System.out.print(" X ");
+                } else {
+                    System.out.print("   ");
+                }
+            }
+            System.out.println();
+        }
+        */
+
+    }
+
+    private void addRooks(){
+        Rook p = new Rook(Piece.BLACK);
+        movePiece(p, new Point(0,0));
+        bPieces.add(p);
+        p =  new Rook(Piece.BLACK);
+        movePiece(p, new Point(7,0));
+        bPieces.add(p);
+
+        p = new Rook(Piece.WHITE);
+        movePiece(p, new Point(0,7));
+        wPieces.add(p);
+        p =  new Rook(Piece.WHITE);
+        movePiece(p, new Point(7,7));
+        wPieces.add(p);
+    }
+
+    private void addKnights(){
+        Knight p = new Knight(Piece.BLACK);
+        movePiece(p, new Point(1,0));
+        bPieces.add(p);
+        p =  new Knight(Piece.BLACK);
+        movePiece(p, new Point(6,0));
+        bPieces.add(p);
+
+        p = new Knight(Piece.WHITE);
+        movePiece(p, new Point(1,7));
+        wPieces.add(p);
+        p =  new Knight(Piece.WHITE);
+        movePiece(p, new Point(6,7));
+        wPieces.add(p);
+    }
+
+    private void addBishops(){
+        Bishop p = new Bishop(Piece.BLACK);
+        movePiece(p, new Point(2,0));
+        bPieces.add(p);
+        p =  new Bishop(Piece.BLACK);
+        movePiece(p, new Point(5,0));
+        bPieces.add(p);
+
+        p = new Bishop(Piece.WHITE);
+        movePiece(p, new Point(2,7));
+        wPieces.add(p);
+        p =  new Bishop(Piece.WHITE);
+        movePiece(p, new Point(5,7));
+        wPieces.add(p);
+    }
+
+    private void addQueens(){
+        Queen p = new Queen(Piece.BLACK);
+        movePiece(p, new Point(3,0));
+        bPieces.add(p);
+
+        p = new Queen(Piece.WHITE);
+        movePiece(p, new Point(3,7));
+        wPieces.add(p);
+    }
+
+    private void addKings(){
+        bKing = new King(Piece.BLACK);
+        wKing = new King(Piece.WHITE);
+        bPieces.add(bKing);
+        wPieces.add(wKing);
+        movePiece(bKing, new Point(4, 0));
+        movePiece(wKing, new Point(4, 7));
+    }
+
+
+    private void addPawns(){
+        for (int x = 0; x < 8; x++){
+            Pawn pawn = new Pawn(Piece.BLACK);
+            movePiece(pawn, new Point(x, 1));
+            bPieces.add(pawn);
+
+            pawn = new Pawn(Piece.WHITE);
+            movePiece(pawn, new Point(x, 6));
+            wPieces.add(pawn);
+        }
     }
 
     public static void main(String[] args) {
@@ -82,7 +185,7 @@ public class Board {
         return board[p.x][p.y].getColour();
     }
 
-
+    /*
     //ADD VERIFICATION NOT LEAVING IN CHECKMATE
     public boolean movePiece(Point sP, Point eP){
         if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].getColour() == turn){
@@ -101,6 +204,7 @@ public class Board {
         }
         return false;
     }
+     */
 
     /**
      * Moves the piece to the specified point
@@ -108,8 +212,11 @@ public class Board {
      * @param pos the point to move to
      */
     private void movePiece(Piece p, Point pos){
-        board[p.getPos().x][p.getPos().x] = null;
+        if (p.getPos() != null){
+            board[p.getPos().x][p.getPos().y] = null;
+        }
         board[pos.x][pos.y] = p;
+        p.setPos(pos);
     }
 
     private Piece getPiece(Point p){

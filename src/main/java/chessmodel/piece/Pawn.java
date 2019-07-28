@@ -14,6 +14,10 @@ public class Pawn extends Piece {
         super(colour, pos);
     }
 
+    public Pawn(int colour){
+        super(colour);
+    }
+
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) {return null;}
 
