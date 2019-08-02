@@ -50,7 +50,7 @@ public abstract class Piece {
     /**
      * Returns true if this piece can move to the specified position. Is only called after both points are verified
      * @param board the class holding information about the pieces
-     * @param p the position to moce to
+     * @param p the position to move to
      * @return true if it can make the move, false otherwise
      */
     public boolean canMove(Board board, Point p) {

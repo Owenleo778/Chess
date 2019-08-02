@@ -4,6 +4,7 @@ import chessmodel.piece.*;
 
 import java.awt.*;
 import java.util.ArrayList;
+import java.util.concurrent.RecursiveTask;
 
 /**
  * A class representing the state of the board. x = 0, y = 0 -> top left corner
@@ -25,12 +26,12 @@ public class Board {
         wPieces = new ArrayList<>(16);
         bPieces = new ArrayList<>(16);
 
+        addPawns();
         addRooks();
         addKnights();
         addBishops();
         addQueens();
         addKings();
-        addPawns();
 
         /*
         bKing = new King(Piece.BLACK, new Point(1,1));
@@ -62,59 +63,59 @@ public class Board {
 
     private void addRooks(){
         Rook p = new Rook(Piece.BLACK);
-        movePiece(p, new Point(0,0));
+        setPiecePosition(p, new Point(0,0));
         bPieces.add(p);
         p =  new Rook(Piece.BLACK);
-        movePiece(p, new Point(7,0));
+        setPiecePosition(p, new Point(7,0));
         bPieces.add(p);
 
         p = new Rook(Piece.WHITE);
-        movePiece(p, new Point(0,7));
+        setPiecePosition(p, new Point(0,7));
         wPieces.add(p);
         p =  new Rook(Piece.WHITE);
-        movePiece(p, new Point(7,7));
+        setPiecePosition(p, new Point(7,7));
         wPieces.add(p);
     }
 
     private void addKnights(){
         Knight p = new Knight(Piece.BLACK);
-        movePiece(p, new Point(1,0));
+        setPiecePosition(p, new Point(1,0));
         bPieces.add(p);
         p =  new Knight(Piece.BLACK);
-        movePiece(p, new Point(6,0));
+        setPiecePosition(p, new Point(6,0));
         bPieces.add(p);
 
         p = new Knight(Piece.WHITE);
-        movePiece(p, new Point(1,7));
+        setPiecePosition(p, new Point(1,7));
         wPieces.add(p);
         p =  new Knight(Piece.WHITE);
-        movePiece(p, new Point(6,7));
+        setPiecePosition(p, new Point(6,7));
         wPieces.add(p);
     }
 
     private void addBishops(){
         Bishop p = new Bishop(Piece.BLACK);
-        movePiece(p, new Point(2,0));
+        setPiecePosition(p, new Point(2,0));
         bPieces.add(p);
         p =  new Bishop(Piece.BLACK);
-        movePiece(p, new Point(5,0));
+        setPiecePosition(p, new Point(5,0));
         bPieces.add(p);
 
         p = new Bishop(Piece.WHITE);
-        movePiece(p, new Point(2,7));
+        setPiecePosition(p, new Point(2,7));
         wPieces.add(p);
         p =  new Bishop(Piece.WHITE);
-        movePiece(p, new Point(5,7));
+        setPiecePosition(p, new Point(5,7));
         wPieces.add(p);
     }
 
     private void addQueens(){
         Queen p = new Queen(Piece.BLACK);
-        movePiece(p, new Point(3,0));
+        setPiecePosition(p, new Point(3,0));
         bPieces.add(p);
 
         p = new Queen(Piece.WHITE);
-        movePiece(p, new Point(3,7));
+        setPiecePosition(p, new Point(3,7));
         wPieces.add(p);
     }
 
@@ -123,19 +124,18 @@ public class Board {
         wKing = new King(Piece.WHITE);
         bPieces.add(bKing);
         wPieces.add(wKing);
-        movePiece(bKing, new Point(4, 0));
-        movePiece(wKing, new Point(4, 7));
+        setPiecePosition(bKing, new Point(4, 0));
+        setPiecePosition(wKing, new Point(4, 7));
     }
-
 
     private void addPawns(){
         for (int x = 0; x < 8; x++){
             Pawn pawn = new Pawn(Piece.BLACK);
-            movePiece(pawn, new Point(x, 1));
+            setPiecePosition(pawn, new Point(x, 1));
             bPieces.add(pawn);
 
             pawn = new Pawn(Piece.WHITE);
-            movePiece(pawn, new Point(x, 6));
+            setPiecePosition(pawn, new Point(x, 6));
             wPieces.add(pawn);
         }
     }
@@ -187,16 +187,16 @@ public class Board {
 
     /*
     //ADD VERIFICATION NOT LEAVING IN CHECKMATE
-    public boolean movePiece(Point sP, Point eP){
+    public boolean setPiecePosition(Point sP, Point eP){
         if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].getColour() == turn){
 
             if(board[sP.x][sP.y].canMove(this, sP, eP)) {
                 Piece p = getPiece(sP);
                 Piece p2 = getPiece(eP);
-                movePiece(p, eP);
+                setPiecePosition(p, eP);
                 if (inCheck(turn)) {
-                    movePiece(p, sP);
-                    movePiece(p2, eP);
+                    setPiecePosition(p, sP);
+                    setPiecePosition(p2, eP);
                     return false;
                 }
                 return true;
@@ -206,18 +206,41 @@ public class Board {
     }
      */
 
+
+
+    //change to set piece position, make move puece a different function that checks more
+
+
+    //ADD VERIFICATION NOT LEAVING IN CHECKMATE
     /**
-     * Moves the piece to the specified point
+     * Sets the piece to the specified point
      * @param p the piece to move
      * @param pos the point to move to
      */
-    private void movePiece(Piece p, Point pos){
-        if (p.getPos() != null){
-            board[p.getPos().x][p.getPos().y] = null;
-        }
-        board[pos.x][pos.y] = p;
-        p.setPos(pos);
+    private void setPiecePosition(Piece p, Point pos){
+            if (p.getPos() != null) {
+                board[p.getPos().x][p.getPos().y] = null;
+            }
+            board[pos.x][pos.y] = p;
+            p.setPos(pos);
     }
+
+    /**
+     * Moves the pieve to the specified position if it's a legal move
+     * @param p the piece to move
+     * @param pos the position to move to
+     * @return returns true if the piece was moved, false otherwise
+     */
+    private boolean movePiece(Piece p, Point pos){
+        if (p.getPos() == null)
+            return false;
+        if (p.canMove(this, pos)){
+            setPiecePosition(p, pos);
+        }
+        return true;
+    }
+
+
 
     private Piece getPiece(Point p){
         return board[p.x][p.y];

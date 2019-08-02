@@ -10,12 +10,22 @@ import java.util.ArrayList;
  */
 public class Pawn extends Piece {
 
+
+
+    // MOVED DOES CURRENTLY NOT FUNCTION.
+    // SOLE PURPOSE IS FOR INITIAL 2 SPACE MOVE, PERHAPS REMOVE
+    private boolean moved;
+
+
+
+
     public Pawn(int colour, Point pos){
         super(colour, pos);
+        moved = false;
     }
 
     public Pawn(int colour){
-        super(colour);
+        this(colour, null);
     }
 
     @Override
@@ -30,7 +40,7 @@ public class Pawn extends Piece {
             if (p1.y + getColour() == p2.y){
                 return true;
             } else {
-                return p1.y + getColour() * 2 == p2.y && board.isEmptySpace(p1.x, p1.y + getColour());
+                return p1.y + getColour() * 2 == p2.y && board.isEmptySpace(p1.x, p1.y + getColour()) && !moved;
             }
         } else {
                 return validEndPos(board, p2) && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour() == p2.y;
