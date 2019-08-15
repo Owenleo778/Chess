@@ -6,11 +6,13 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Slider;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
@@ -27,10 +29,12 @@ import java.util.ResourceBundle;
  */
 public class Window extends Application implements Initializable {
 
+    public static final int TILE_SIZE = 100;
+    public static final int WIDTH = 8;
+    public static final int HEIGHT = 8;
+    private Group tileGroup = new Group();
     @FXML private BorderPane root;
-    @FXML private Button button;
-    @FXML private TextField textf;
-    @FXML private Slider slider;
+    @FXML private Pane centre;
 
     public Window(){
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("window.fxml"));
@@ -44,7 +48,6 @@ public class Window extends Application implements Initializable {
 
     }
 
-
     @Override
     public void start(Stage primaryStage) throws Exception {
         Scene scene = new Scene(this.root);
@@ -55,7 +58,13 @@ public class Window extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        button.setOnAction(e -> textf.setText("Hello World!"));
-        slider.valueProperty().addListener(e -> textf.setFont(new Font(slider.getValue())));
+        centre.getChildren().add(tileGroup);
+        for (int x = 0; x < WIDTH; x++){
+            for (int y = 0; y < HEIGHT; y++){
+                Tile tile = new Tile((x + y) % 2 == 0, x, y);
+                tileGroup.getChildren().add(tile);
+            }
+        }
+
     }
 }

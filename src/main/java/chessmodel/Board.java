@@ -20,7 +20,7 @@ public class Board {
     private ArrayList<Piece> wPieces;
 
     public Board(){
-        board = new Piece[8][8];
+        board = new Piece[Window.WIDTH][Window.HEIGHT];
         turn = Piece.WHITE;
 
         wPieces = new ArrayList<>(16);
