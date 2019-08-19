@@ -4,15 +4,16 @@ import chessmodel.Board;
 
 import java.awt.*;
 import java.util.ArrayList;
+import javafx.scene.image.Image;
 
 public class King extends Piece {
 
-    public King(int colour, Point pos){
-        super(colour, pos);
+    public King(Colour colour){
+        this(colour, null);
     }
 
-    public King(int colour){
-        super(colour);
+    public King(Colour colour, Point pos){
+        super(colour, pos, new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_King.png"));
     }
 
     @Override

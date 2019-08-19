@@ -1,6 +1,7 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -16,17 +17,15 @@ public class Pawn extends Piece {
     // SOLE PURPOSE IS FOR INITIAL 2 SPACE MOVE, PERHAPS REMOVE
     private boolean moved;
 
+    public Pawn(Colour colour){
+        this(colour, null);
+    }
 
-
-
-    public Pawn(int colour, Point pos){
-        super(colour, pos);
+    public Pawn(Colour colour, Point pos){
+        super(colour, pos, new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_Pawn.png"));
         moved = false;
     }
 
-    public Pawn(int colour){
-        this(colour, null);
-    }
 
     @Override
     public ArrayList<Point> getMoves(Piece[][] board, Point p) {return null;}
@@ -37,13 +36,13 @@ public class Pawn extends Piece {
     @Override
     public boolean canMove(Board board, Point p1, Point p2) {
         if (board.isEmptySpace(p2) && p1.x == p2.x){
-            if (p1.y + getColour() == p2.y){
+            if (p1.y + getColour().getValue() == p2.y){
                 return true;
             } else {
-                return p1.y + getColour() * 2 == p2.y && board.isEmptySpace(p1.x, p1.y + getColour()) && !moved;
+                return p1.y + getColour().getValue() * 2 == p2.y && board.isEmptySpace(p1.x, p1.y + getColour().getValue()) && !moved;
             }
         } else {
-                return validEndPos(board, p2) && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour() == p2.y;
+                return validEndPos(board, p2) && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
         }
     }
 

@@ -1,10 +1,13 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
-import javafx.scene.shape.Circle;
+import javafx.scene.image.ImageView;
+import javafx.scene.image.Image;
+import view.Window;
 
 import java.awt.*;
 import java.util.ArrayList;
+
 
 /**
  * A class that represents a chess piece. The colour is represented by an integer, so that it can also be used
@@ -15,20 +18,21 @@ public abstract class Piece {
 
     public final static int BLACK = 1;
     public final static int WHITE = -1;
-    private int colour;
+    private Colour colour;
     private Point pos;
+    private ImageView image;
 
-    public Piece(int colour){
-        this(colour, null);
+    public Piece(Colour colour, Image src){
+        this(colour, null, src);
     }
 
-    public Piece(int colour, Point pos){
-        if (colour != BLACK && colour != WHITE){
-            System.err.println("Pieces must be black or white");
-            System.exit(0);
-        }
+    public Piece(Colour colour, Point pos, Image src){
         this.colour = colour;
-        this.pos = pos;
+        image = new ImageView(src);
+        image.setFitWidth(view.Window.TILE_SIZE);
+        image.setFitHeight(view.Window.TILE_SIZE);
+        setPos(pos);
+        //image.relocate(100,100);
     }
 
     /**
@@ -106,13 +110,14 @@ public abstract class Piece {
      */
     public void setPos(Point p){
         pos = p;
+        image.relocate(p.x * Window.TILE_SIZE, p.y * Window.TILE_SIZE);
     }
 
     /**
      * Returns the colour of the piece
      * @return the colour
      */
-    public int getColour(){
+    public Colour getColour(){
         return colour;
     }
 
@@ -122,6 +127,14 @@ public abstract class Piece {
      */
     public Point getPos(){
         return pos;
+    }
+
+    /**
+     * Returns the image that depicts the piece
+     * @return the image
+     */
+    public ImageView getImage(){
+        return image;
     }
 
 }

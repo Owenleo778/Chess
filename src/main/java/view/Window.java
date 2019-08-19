@@ -1,6 +1,10 @@
 package view;
 
 import chessmodel.Board;
+import chessmodel.piece.Colour;
+
+import chessmodel.piece.*;
+
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -75,6 +79,10 @@ public class Window extends Application implements Initializable {
         c.relocate(200, 200);
         centre.getChildren().add(c);*/
 
+        Piece p1 = new Queen(Colour.BLACK, new Point(3,5));
+        centre.getChildren().add(p1.getImage());
+        Piece p2 = new King(Colour.WHITE, new Point(1,5));
+        centre.getChildren().add(p2.getImage());
 
         root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
         //root.autosize();

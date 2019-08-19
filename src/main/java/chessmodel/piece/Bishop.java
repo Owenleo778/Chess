@@ -1,18 +1,19 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Bishop extends Piece {
 
-    public Bishop(int colour, Point pos){
-        super(colour, pos);
+    public Bishop(Colour colour){
+        this(colour, null);
     }
 
-    public Bishop(int colour){
-        super(colour);
+    public Bishop(Colour colour, Point pos){
+        super(colour, pos, new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_Bishop.png"));
     }
 
     @Override

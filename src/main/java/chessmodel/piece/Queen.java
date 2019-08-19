@@ -1,18 +1,19 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import javafx.scene.image.Image;
 
 import java.awt.*;
 import java.util.ArrayList;
 
 public class Queen extends Piece {
 
-    public Queen(int colour, Point pos){
-        super(colour, pos);
+    public Queen(Colour colour){
+        this(colour, null);
     }
 
-    public Queen(int colour){
-        super(colour);
+    public Queen(Colour colour, Point pos){
+        super(colour, pos,  new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_Queen.png"));
     }
 
     @Override

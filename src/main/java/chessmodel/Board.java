@@ -28,12 +28,15 @@ public class Board {
         wPieces = new ArrayList<>(16);
         bPieces = new ArrayList<>(16);
 
+
+
         addPawns();
         addRooks();
         addKnights();
         addBishops();
         addQueens();
         addKings();
+
 
         /*
         bKing = new King(Piece.BLACK, new Point(1,1));
@@ -63,67 +66,70 @@ public class Board {
 
     }
 
+
+
+
     private void addRooks(){
-        Rook p = new Rook(Piece.BLACK);
+        Rook p = new Rook(Colour.BLACK);
         setPiecePosition(p, new Point(0,0));
         bPieces.add(p);
-        p =  new Rook(Piece.BLACK);
+        p =  new Rook(Colour.BLACK);
         setPiecePosition(p, new Point(7,0));
         bPieces.add(p);
 
-        p = new Rook(Piece.WHITE);
+        p = new Rook(Colour.WHITE);
         setPiecePosition(p, new Point(0,7));
         wPieces.add(p);
-        p =  new Rook(Piece.WHITE);
+        p =  new Rook(Colour.WHITE);
         setPiecePosition(p, new Point(7,7));
         wPieces.add(p);
     }
 
     private void addKnights(){
-        Knight p = new Knight(Piece.BLACK);
+        Knight p = new Knight(Colour.BLACK);
         setPiecePosition(p, new Point(1,0));
         bPieces.add(p);
-        p =  new Knight(Piece.BLACK);
+        p =  new Knight(Colour.BLACK);
         setPiecePosition(p, new Point(6,0));
         bPieces.add(p);
 
-        p = new Knight(Piece.WHITE);
+        p = new Knight(Colour.WHITE);
         setPiecePosition(p, new Point(1,7));
         wPieces.add(p);
-        p =  new Knight(Piece.WHITE);
+        p =  new Knight(Colour.WHITE);
         setPiecePosition(p, new Point(6,7));
         wPieces.add(p);
     }
 
     private void addBishops(){
-        Bishop p = new Bishop(Piece.BLACK);
+        Bishop p = new Bishop(Colour.BLACK);
         setPiecePosition(p, new Point(2,0));
         bPieces.add(p);
-        p =  new Bishop(Piece.BLACK);
+        p =  new Bishop(Colour.BLACK);
         setPiecePosition(p, new Point(5,0));
         bPieces.add(p);
 
-        p = new Bishop(Piece.WHITE);
+        p = new Bishop(Colour.WHITE);
         setPiecePosition(p, new Point(2,7));
         wPieces.add(p);
-        p =  new Bishop(Piece.WHITE);
+        p =  new Bishop(Colour.WHITE);
         setPiecePosition(p, new Point(5,7));
         wPieces.add(p);
     }
 
     private void addQueens(){
-        Queen p = new Queen(Piece.BLACK);
+        Queen p = new Queen(Colour.BLACK);
         setPiecePosition(p, new Point(3,0));
         bPieces.add(p);
 
-        p = new Queen(Piece.WHITE);
+        p = new Queen(Colour.WHITE);
         setPiecePosition(p, new Point(3,7));
         wPieces.add(p);
     }
 
     private void addKings(){
-        bKing = new King(Piece.BLACK);
-        wKing = new King(Piece.WHITE);
+        bKing = new King(Colour.BLACK);
+        wKing = new King(Colour.WHITE);
         bPieces.add(bKing);
         wPieces.add(wKing);
         setPiecePosition(bKing, new Point(4, 0));
@@ -132,15 +138,17 @@ public class Board {
 
     private void addPawns(){
         for (int x = 0; x < 8; x++){
-            Pawn pawn = new Pawn(Piece.BLACK);
+            Pawn pawn = new Pawn(Colour.BLACK);
             setPiecePosition(pawn, new Point(x, 1));
             bPieces.add(pawn);
 
-            pawn = new Pawn(Piece.WHITE);
+            pawn = new Pawn(Colour.WHITE);
             setPiecePosition(pawn, new Point(x, 6));
             wPieces.add(pawn);
         }
     }
+
+
 
     public static void main(String[] args) {
         Board b = new Board();
@@ -183,7 +191,7 @@ public class Board {
         return isEmptySpace(p.x, p.y);
     }
 
-    public int getColour(Point p) throws NullPointerException {
+    public Colour getColour(Point p) throws NullPointerException {
         return board[p.x][p.y].getColour();
     }
 
