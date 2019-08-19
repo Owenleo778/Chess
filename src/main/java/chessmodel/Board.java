@@ -12,6 +12,8 @@ import java.util.concurrent.RecursiveTask;
  */
 public class Board {
 
+    public static final int WIDTH = 8;
+    public static final int HEIGHT = 8;
     private Piece[][] board;
     private int turn;
     private King bKing;
@@ -20,7 +22,7 @@ public class Board {
     private ArrayList<Piece> wPieces;
 
     public Board(){
-        board = new Piece[Window.WIDTH][Window.HEIGHT];
+        board = new Piece[WIDTH][HEIGHT];
         turn = Piece.WHITE;
 
         wPieces = new ArrayList<>(16);

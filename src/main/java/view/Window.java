@@ -1,5 +1,6 @@
 package view;
 
+import chessmodel.Board;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
@@ -14,6 +15,8 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.text.Font;
 import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
@@ -30,9 +33,8 @@ import java.util.ResourceBundle;
 public class Window extends Application implements Initializable {
 
     public static final int TILE_SIZE = 100;
-    public static final int WIDTH = 8;
-    public static final int HEIGHT = 8;
     private Group tileGroup = new Group();
+    private Group pieceGroup = new Group();
     @FXML private BorderPane root;
     @FXML private Pane centre;
 
@@ -59,12 +61,22 @@ public class Window extends Application implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         centre.getChildren().add(tileGroup);
-        for (int x = 0; x < WIDTH; x++){
-            for (int y = 0; y < HEIGHT; y++){
+        centre.getChildren().add(pieceGroup);
+        //draws tiles onto the board
+        for (int x = 0; x < Board.WIDTH; x++){
+            for (int y = 0; y < Board.HEIGHT; y++){
                 Tile tile = new Tile((x + y) % 2 == 0, x, y);
                 tileGroup.getChildren().add(tile);
             }
         }
 
+
+        /*Circle c = new Circle(50, Color.BLUE);
+        c.relocate(200, 200);
+        centre.getChildren().add(c);*/
+
+
+        root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
+        //root.autosize();
     }
 }
