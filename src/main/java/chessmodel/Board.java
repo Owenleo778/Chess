@@ -15,7 +15,7 @@ public class Board {
     public static final int WIDTH = 8;
     public static final int HEIGHT = 8;
     private Piece[][] board;
-    private int turn;
+    private Colour turn;
     private King bKing;
     private King wKing;
     private ArrayList<Piece> bPieces;
@@ -23,7 +23,7 @@ public class Board {
 
     public Board(){
         board = new Piece[WIDTH][HEIGHT];
-        turn = Piece.WHITE;
+        turn = Colour.WHITE;
 
         wPieces = new ArrayList<>(16);
         bPieces = new ArrayList<>(16);
@@ -212,11 +212,14 @@ public class Board {
      * @return returns true if the piece was moved, false otherwise
      */
     public boolean movePiece(Piece p, Point pos){
-        if (p.getPos() == null)
-            return false;
-        if (p.canMove(this, pos)){
-            setPiecePosition(p, pos);
-            return true;
+        if (p.getColour() == turn) {
+            if (p.getPos() == null)
+                return false;
+            if (p.canMove(this, pos)) {
+                setPiecePosition(p, pos);
+                turn = turn == Colour.BLACK ? Colour.WHITE : Colour.BLACK;
+                return true;
+            }
         }
         return false;
     }
@@ -235,10 +238,10 @@ public class Board {
      * @param colour the king to check
      * @return true if the king is in check, false otherwise
      */
-    private boolean inCheck(int colour){
-        if (colour == Piece.BLACK){
+    private boolean inCheck(Colour colour){
+        if (colour == Colour.BLACK){
             return inCheck(bKing.getPos(), wPieces);
-        } else if (colour == Piece.WHITE){
+        } else if (colour == Colour.WHITE){
             return inCheck(wKing.getPos(), bPieces);
         }
         return false;
@@ -266,10 +269,10 @@ public class Board {
      * @param colour the king to check
      * @return true if the king is in checkmate, false otherwise
      */
-    private boolean verifyMate(int colour){
-        if (colour == Piece.BLACK){
+    private boolean verifyMate(Colour colour){
+        if (colour == Colour.BLACK){
             return verifyMate(bKing.getPos());
-        } else if (colour == Piece.WHITE){
+        } else if (colour == Colour.WHITE){
             return verifyMate(wKing.getPos());
         }
         return false;

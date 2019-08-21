@@ -16,8 +16,6 @@ import java.util.ArrayList;
  */
 public abstract class Piece {
 
-    public final static int BLACK = 1;
-    public final static int WHITE = -1;
     private Colour colour;
     private Point pos;
     private ImageView image;

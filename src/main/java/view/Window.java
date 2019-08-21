@@ -96,7 +96,7 @@ public class Window extends Application implements Initializable {
      * @param p the piece to remove
      */
     public void removePiece(Piece p){
-        System.out.println(pieceGroup.getChildren().remove(p.getImage()));
+        pieceGroup.getChildren().remove(p.getImage());
     }
 
     public Board getBoard(){
