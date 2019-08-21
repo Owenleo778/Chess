@@ -11,6 +11,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Group;
 import javafx.scene.Scene;
+import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Pane;
@@ -18,7 +19,7 @@ import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
 import listeners.PieceMover;
 
-import java.awt.*;
+import java.awt.Point;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
@@ -34,6 +35,7 @@ public class Window extends Application implements Initializable {
     private Group pieceGroup;
     @FXML private BorderPane root;
     @FXML private Pane centre;
+    @FXML private Label turn;
     private Board board;
 
     public Window(){
@@ -101,6 +103,14 @@ public class Window extends Application implements Initializable {
 
     public Board getBoard(){
         return board;
+    }
+
+    public void nextTurn(){
+        if (turn.getText().equals("White's Turn")){
+            turn.setText("Black's Turn");
+        } else {
+            turn.setText("White's Turn");
+        }
     }
 
 }
