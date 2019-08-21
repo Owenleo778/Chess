@@ -28,47 +28,14 @@ public class Board {
         wPieces = new ArrayList<>(16);
         bPieces = new ArrayList<>(16);
 
-
-
         addPawns();
         addRooks();
         addKnights();
         addBishops();
         addQueens();
         addKings();
-        movePiece(getPiece(new Point(1,0)), new Point(2, 2));
-
-
-        /*
-        bKing = new King(Piece.BLACK, new Point(1,1));
-        board[1][1] = bKing;
-        wPieces.add(new Queen(Piece.WHITE, new Point(0, 0)));
-        wPieces.add(new Knight(Piece.WHITE, new Point(2, 3)));
-
-        board[0][0] = wPieces.get(0);
-        board[2][3] = wPieces.get(1);
-
-        //System.out.println(board[1][1].canMove(this, new Point(1, 1), new Point(2, 3)));
-        System.out.println(inCheck(Piece.BLACK));
-         */
-
-        /*
-        for (int y = 0; y < 8; y++) {
-            for (int x = 0; x < 8; x++) {
-                if (board[x][y] != null) {
-                    System.out.print(" X ");
-                } else {
-                    System.out.print("   ");
-                }
-            }
-            System.out.println();
-        }
-        */
 
     }
-
-
-
 
     private void addRooks(){
         Rook p = new Rook(Colour.BLACK);
@@ -149,8 +116,6 @@ public class Board {
         }
     }
 
-
-
     public static void main(String[] args) {
         Board b = new Board();
     }
@@ -192,34 +157,38 @@ public class Board {
         return isEmptySpace(p.x, p.y);
     }
 
+    /**
+     * Sets the piece at the specified position to be removed
+     * @param p the position to check
+     */
+    public void removePiece(Point p){
+        if (!isEmptySpace(p))
+            board[p.x][p.y].remove();
+
+        /*
+        ArrayList<Piece> pieces = new ArrayList<>();
+        for (Piece piece : bPieces) {
+            if (!piece.isRemoved())
+                pieces.add(piece);
+        }
+        bPieces = pieces;
+
+        pieces = new ArrayList<>();
+        for (Piece piece : wPieces) {
+            if (!piece.isRemoved())
+                pieces.add(piece);
+        }
+        wPieces = pieces;
+         */
+
+    }
+
     public Colour getColour(Point p) throws NullPointerException {
         return board[p.x][p.y].getColour();
     }
 
-    /*
-    //ADD VERIFICATION NOT LEAVING IN CHECKMATE
-    public boolean setPiecePosition(Point sP, Point eP){
-        if (inRange(sP) && inRange(eP) && !isEmptySpace(sP) && board[sP.x][sP.y].getColour() == turn){
 
-            if(board[sP.x][sP.y].canMove(this, sP, eP)) {
-                Piece p = getPiece(sP);
-                Piece p2 = getPiece(eP);
-                setPiecePosition(p, eP);
-                if (inCheck(turn)) {
-                    setPiecePosition(p, sP);
-                    setPiecePosition(p2, eP);
-                    return false;
-                }
-                return true;
-            }
-        }
-        return false;
-    }
-     */
-
-
-
-    //change to set piece position, make move puece a different function that checks more
+    //change to set piece position, make move piece a different function that checks more
 
 
     //ADD VERIFICATION NOT LEAVING IN CHECKMATE
@@ -229,11 +198,9 @@ public class Board {
      * @param pos the point to move to
      */
     private void setPiecePosition(Piece p, Point pos){
-            if (p.getPos() != null) {
+            if (p.getPos() != null)
                 board[p.getPos().x][p.getPos().y] = null;
-            }
-            if (!isEmptySpace(pos))
-                // destroy piece
+            removePiece(pos);
             board[pos.x][pos.y] = p;
             p.setPos(pos);
     }
@@ -254,8 +221,11 @@ public class Board {
         return false;
     }
 
-
-
+    /**
+     * Returns the piece at the given position
+     * @param p the position to check
+     * @return the piece found, null if no piece is found
+     */
     public Piece getPiece(Point p){
         return inRange(p) ?  board[p.x][p.y] :  null;
     }
@@ -290,50 +260,6 @@ public class Board {
 
         return false;
     }
-
-    /*
-    private boolean inCheck(Point p){
-
-        //Checks in the 8 directions round if any piece is checking the king
-        for (int xDir = -1; xDir < 2; xDir++){ // Loops through the x directions
-            for (int yDir = -1; yDir < 2; yDir++){ // Loops through the y directions
-                if (xDir != 0 || yDir != 0){
-                    int i = 1;
-                    Point p2 = new Point(p.x + xDir, p.y + yDir);
-                    boolean validPos = inRange(p2);
-                    while (validPos) {
-                        //System.out.println("Checking: " + p2.x + ", " + p2.y);
-                        if (!isEmptySpace(p2) && board[p2.x][p2.y].canMove(this, p2, p)){
-                            return true;
-                        } else if (!isEmptySpace(p2) &&getColour(p2) == getColour(p)){
-                            break;
-                        }
-
-                        i++;
-                        p2.x = p.x + i * xDir;
-                        p2.y = p.y + i * yDir;
-                        validPos = inRange(p.x + i *xDir) && inRange(p.y + i * yDir);
-                    }
-                }
-            }
-        }
-        //System.out.println();
-        // Checks for Knights
-        for (int xDir = -2; xDir < 3; xDir++) { // Loops through the x directions
-            for (int yDir = -2; yDir < 3; yDir++) { // Loops through the y directions
-                if (Math.abs(xDir) + Math.abs(yDir) == 3){
-                    Point p2 = new Point(p.x + xDir, p.y + yDir);
-                    //System.out.println("Checking: " + p2.x + ", " + p2.y);
-                    if (inRange(p2) && !isEmptySpace(p2) && board[p2.x][p2.y].canMove(this, p2, p))
-                        return true;
-                }
-            }
-        }
-
-        return false;
-    }
-
-     */
 
     /**
      * Checks if the colour's king is in checkmate

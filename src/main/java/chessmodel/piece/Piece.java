@@ -21,12 +21,14 @@ public abstract class Piece {
     private Colour colour;
     private Point pos;
     private ImageView image;
+    private boolean removed;
 
     public Piece(Colour colour, Image src){
         this(colour, null, src);
     }
 
     public Piece(Colour colour, Point pos, Image src){
+        removed = false;
         this.colour = colour;
         image = new ImageView(src);
         image.setFitWidth(view.Window.TILE_SIZE);
@@ -136,6 +138,21 @@ public abstract class Piece {
      */
     public ImageView getImage(){
         return image;
+    }
+
+    /**
+     * Sets this piece to be 'removed
+     */
+    public void remove(){
+        removed = true;
+    }
+
+    /**
+     * Returns whether this piece has been removed or not
+     * @return true if it has been removed
+     */
+    public boolean isRemoved(){
+        return removed;
     }
 
 }

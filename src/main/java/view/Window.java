@@ -2,6 +2,8 @@ package view;
 
 import chessmodel.Board;
 
+import chessmodel.piece.Colour;
+import chessmodel.piece.King;
 import chessmodel.piece.Piece;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -28,16 +30,17 @@ import java.util.ResourceBundle;
 public class Window extends Application implements Initializable {
 
     public static final int TILE_SIZE = 100;
-    private Group tileGroup = new Group();
-    private Group pieceGroup = new Group();
+    private Group tileGroup;
+    private Group pieceGroup;
     @FXML private BorderPane root;
     @FXML private Pane centre;
     private Board board;
 
     public Window(){
-        board = new Board();
         FXMLLoader loader = new FXMLLoader(getClass().getClassLoader().getResource("window.fxml"));
         loader.setController(this);
+        board = new Board();
+        pieceGroup = board.getImages();
 
         try {
             root = loader.load();
@@ -57,7 +60,9 @@ public class Window extends Application implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        PieceMover p = new PieceMover(board);
+        tileGroup = new Group();
+        PieceMover p = new PieceMover(this);
+
         centre.addEventHandler(MouseEvent.MOUSE_PRESSED, p);
         centre.addEventHandler(MouseEvent.MOUSE_RELEASED, p);
         centre.getChildren().add(tileGroup);
@@ -71,15 +76,31 @@ public class Window extends Application implements Initializable {
             }
         }
 
-        pieceGroup.getChildren().addAll(board.getImages());
 
         root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
     }
 
+    /**
+     * Converts pixel coordinates (e.g mouse position) to board coordinates (e.g position of a piece)
+     * @param p the pixel coordinates
+     * @return the board coordinates
+     */
     public static Point toCoordinates(Point p){
         p.x = p.x / TILE_SIZE;
         p.y = p.y / TILE_SIZE;
         return p;
+    }
+
+    /**
+     * Removes the specified piece from being shown in the GUI
+     * @param p the piece to remove
+     */
+    public void removePiece(Piece p){
+        System.out.println(pieceGroup.getChildren().remove(p.getImage()));
+    }
+
+    public Board getBoard(){
+        return board;
     }
 
 }
