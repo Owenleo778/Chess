@@ -200,7 +200,6 @@ public class Board {
     private void setPiecePosition(Piece p, Point pos){
             if (p.getPos() != null)
                 board[p.getPos().x][p.getPos().y] = null;
-            removePiece(pos);
             board[pos.x][pos.y] = p;
             p.setPos(pos);
     }
@@ -216,9 +215,19 @@ public class Board {
             if (p.getPos() == null)
                 return false;
             if (p.canMove(this, pos)) {
+                Piece p2 = getPiece(pos);
+                Point pos2 = p.getPos();
                 setPiecePosition(p, pos);
-                turn = turn == Colour.BLACK ? Colour.WHITE : Colour.BLACK;
-                return true;
+                if (!inCheck(turn)) {
+                    turn = turn == Colour.BLACK ? Colour.WHITE : Colour.BLACK;
+                    removePiece(pos);
+                    return true;
+                } else {
+                    setPiecePosition(p, pos2);
+                    if (p2 != null)
+                        setPiecePosition(p2, pos);
+                    return false;
+                }
             }
         }
         return false;
