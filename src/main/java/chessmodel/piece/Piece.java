@@ -46,23 +46,12 @@ public abstract class Piece {
     public abstract ArrayList<Point> getMoves(Piece[][] board, Point p);
 
     /**
-     * Returns true if this piece can move in the specified way. Is only called after both points are verified
-     * @param board the class holding information about the pieces
-     * @param p1 the start position
-     * @param p2 the end position
-     * @return true if it can make the move, false otherwise
-     */
-    public abstract boolean canMove (Board board, Point p1, Point p2);
-
-    /**
      * Returns true if this piece can move to the specified position. Is only called after both points are verified
      * @param board the class holding information about the pieces
      * @param p the position to move to
      * @return true if it can make the move, false otherwise
      */
-    public boolean canMove(Board board, Point p) {
-        return canMove(board, getPos(), p);
-    }
+    public  abstract boolean canMove(Board board, Point p);
 
     /**
      * Returns true if the point supplied is empty or is occupied by an enemy piece.

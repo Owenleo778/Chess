@@ -20,7 +20,8 @@ public class King extends Piece {
     public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
 
     @Override
-    public boolean canMove(Board board, Point p1, Point p2) {
+    public boolean canMove(Board board, Point p2) {
+        Point p1 = getPos();
         int xDiff = Math.abs(p2.x - p1.x);
         int yDiff = Math.abs(p2.y - p1.y);
 

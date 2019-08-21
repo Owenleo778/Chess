@@ -11,19 +11,12 @@ import java.util.ArrayList;
  */
 public class Pawn extends Piece {
 
-
-
-    // MOVED DOES CURRENTLY NOT FUNCTION.
-    // SOLE PURPOSE IS FOR INITIAL 2 SPACE MOVE, PERHAPS REMOVE
-    private boolean moved;
-
     public Pawn(Colour colour){
         this(colour, null);
     }
 
     public Pawn(Colour colour, Point pos){
         super(colour, pos, new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_Pawn.png"));
-        moved = false;
     }
 
 
@@ -34,16 +27,18 @@ public class Pawn extends Piece {
     //Needs rework for En passant move \/ \/ \/ \/ \/ ------------------------------------------
 
     @Override
-    public boolean canMove(Board board, Point p1, Point p2) {
+    public boolean canMove(Board board, Point p2) {
+        Point p1 = getPos();
         if (board.isEmptySpace(p2) && p1.x == p2.x){
             if (p1.y + getColour().getValue() == p2.y){
                 return true;
-            } else {
-                return p1.y + getColour().getValue() * 2 == p2.y && board.isEmptySpace(p1.x, p1.y + getColour().getValue()) && !moved;
+            } else if (board.isEmptySpace(p1.x, p1.y + getColour().getValue())) {
+                return p1.y + getColour().getValue() * 2 == p2.y && getColour() == Colour.BLACK ? p1.y == 1 : p1.y == 6;
             }
         } else {
                 return validEndPos(board, p2) && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
         }
+        return false;
     }
 
 }
