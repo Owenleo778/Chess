@@ -35,8 +35,8 @@ public class Pawn extends Piece {
             } else if (board.isEmptySpace(p1.x, p1.y + getColour().getValue())) {
                 return p1.y + getColour().getValue() * 2 == p2.y && getColour() == Colour.BLACK ? p1.y == 1 : p1.y == 6;
             }
-        } else {
-                return validEndPos(board, p2) && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
+        } else if (!board.isEmptySpace(p2)){
+                return board.getPiece(p2).getColour() != getColour() && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
         }
         return false;
     }
