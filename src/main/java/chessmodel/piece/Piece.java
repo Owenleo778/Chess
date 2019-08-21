@@ -5,7 +5,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import view.Window;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 
@@ -110,7 +110,8 @@ public abstract class Piece {
      */
     public void setPos(Point p){
         pos = p;
-        image.relocate(p.x * Window.TILE_SIZE, p.y * Window.TILE_SIZE);
+        if (p != null)
+            image.relocate(p.x * Window.TILE_SIZE, p.y * Window.TILE_SIZE);
     }
 
     /**

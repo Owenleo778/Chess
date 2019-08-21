@@ -3,7 +3,7 @@ package chessmodel.piece;
 import chessmodel.Board;
 import javafx.scene.image.Image;
 
-import java.awt.*;
+import java.awt.Point;
 import java.util.ArrayList;
 
 /**

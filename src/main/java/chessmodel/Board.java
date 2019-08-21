@@ -1,10 +1,10 @@
 package chessmodel;
 
 import chessmodel.piece.*;
+import javafx.scene.Group;
 
 import java.awt.*;
 import java.util.ArrayList;
-import java.util.concurrent.RecursiveTask;
 
 /**
  * A class representing the state of the board. x = 0, y = 0 -> top left corner
@@ -36,6 +36,7 @@ public class Board {
         addBishops();
         addQueens();
         addKings();
+        movePiece(getPiece(new Point(1,0)), new Point(2, 2));
 
 
         /*
@@ -231,6 +232,8 @@ public class Board {
             if (p.getPos() != null) {
                 board[p.getPos().x][p.getPos().y] = null;
             }
+            if (!isEmptySpace(pos))
+                // destroy piece
             board[pos.x][pos.y] = p;
             p.setPos(pos);
     }
@@ -241,19 +244,20 @@ public class Board {
      * @param pos the position to move to
      * @return returns true if the piece was moved, false otherwise
      */
-    private boolean movePiece(Piece p, Point pos){
+    public boolean movePiece(Piece p, Point pos){
         if (p.getPos() == null)
             return false;
         if (p.canMove(this, pos)){
             setPiecePosition(p, pos);
+            return true;
         }
-        return true;
+        return false;
     }
 
 
 
-    private Piece getPiece(Point p){
-        return board[p.x][p.y];
+    public Piece getPiece(Point p){
+        return inRange(p) ?  board[p.x][p.y] :  null;
     }
 
     /**
@@ -353,6 +357,15 @@ public class Board {
     private boolean verifyMate(Point p){
         // Check if in check first?
         return false;
+    }
+
+    public Group getImages(){
+        Group g = new Group();
+        for (Piece p : bPieces)
+            g.getChildren().add(p.getImage());
+        for (Piece p : wPieces)
+            g.getChildren().add(p.getImage());
+        return g;
     }
 
 }
