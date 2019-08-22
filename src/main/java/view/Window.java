@@ -9,6 +9,7 @@ import javafx.application.Application;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Cursor;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -54,10 +55,11 @@ public class Window extends Application implements Initializable {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
-        Scene scene = new Scene(root);
         primaryStage.setTitle("Chess");
-        primaryStage.setScene(scene);
+        primaryStage.setScene(new Scene(root));
+        primaryStage.sizeToScene();
         primaryStage.show();
+
     }
 
     @Override
@@ -67,6 +69,7 @@ public class Window extends Application implements Initializable {
 
         centre.addEventHandler(MouseEvent.MOUSE_PRESSED, p);
         centre.addEventHandler(MouseEvent.MOUSE_RELEASED, p);
+        centre.addEventHandler(MouseEvent.MOUSE_ENTERED, p);
         centre.getChildren().add(tileGroup);
         centre.getChildren().add(pieceGroup);
 
@@ -77,8 +80,6 @@ public class Window extends Application implements Initializable {
                 tileGroup.getChildren().add(tile);
             }
         }
-
-
         root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
     }
 
@@ -111,6 +112,14 @@ public class Window extends Application implements Initializable {
         } else {
             turn.setText("White's Turn");
         }
+    }
+
+    public void setOpenHand(){
+        centre.setCursor(Cursor.OPEN_HAND);
+    }
+
+    public void setClosedHand(){
+        centre.setCursor(Cursor.CLOSED_HAND);
     }
 
 }

@@ -1,14 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane fx:id="root" prefHeight="385.0" prefWidth="732.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
-   <center>
-      <Pane fx:id="centre" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER" />
-   </center>
    <top>
       <Label fx:id="turn" text="White's Turn" textAlignment="CENTER" BorderPane.alignment="CENTER">
          <font>
@@ -16,4 +14,10 @@
          </font>
       </Label>
    </top>
+   <center>
+      <Pane fx:id="centre" prefHeight="200.0" prefWidth="200.0" BorderPane.alignment="CENTER">
+         <cursor>
+            <Cursor fx:constant="OPEN_HAND" />
+         </cursor></Pane>
+   </center>
 </BorderPane>

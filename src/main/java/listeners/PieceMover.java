@@ -1,5 +1,6 @@
 package listeners;
 
+import chessmodel.Board;
 import chessmodel.piece.Piece;
 import javafx.event.EventHandler;
 import javafx.scene.input.MouseEvent;
@@ -23,10 +24,12 @@ public class PieceMover implements EventHandler<MouseEvent> {
             case "MOUSE_PRESSED":
                 pos = Window.toCoordinates(new Point((int) mE.getX(),(int) mE.getY()));
                 p =  w.getBoard().getPiece(pos);
+                if (p != null)
+                    w.setClosedHand();
                 break;
             case "MOUSE_RELEASED":
                 pos = Window.toCoordinates(new Point((int) mE.getX(),(int) mE.getY()));
-                if (p != null) {
+                if (p != null && Board.inRange(pos)) {
                     Piece p2 = null;
                     if (!w.getBoard().isEmptySpace(pos))
                         p2 = w.getBoard().getPiece(pos);
@@ -38,9 +41,14 @@ public class PieceMover implements EventHandler<MouseEvent> {
                     }
 
                     p = null;
+                    w.setOpenHand();
                 }
                 break;
             case "MOUSE_DRAGGED": // to make it look pretty
+                break;
+            case "MOUSE_ENTERED":
+                if (p == null)
+                    w.setOpenHand();
                 break;
                 default:
 
