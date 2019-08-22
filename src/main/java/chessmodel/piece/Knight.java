@@ -21,10 +21,13 @@ public class Knight extends Piece{
 
     @Override
     public boolean canMove(Board board, Point p2) {
-        Point p1 = getPos();
-        int xDiff = Math.abs(p2.x - p1.x);
-        int yDiff = Math.abs(p2.y - p1.y);
+        if (getPos() != null) {
+            Point p1 = getPos();
+            int xDiff = Math.abs(p2.x - p1.x);
+            int yDiff = Math.abs(p2.y - p1.y);
 
-        return xDiff + yDiff == 3 && xDiff != 0 && yDiff != 0 &&  validEndPos(board, p2);
+            return xDiff + yDiff == 3 && xDiff != 0 && yDiff != 0 && validEndPos(board, p2);
+        }
+        return false;
     }
 }

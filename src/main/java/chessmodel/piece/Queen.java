@@ -23,9 +23,12 @@ public class Queen extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p2) {
-        Point p1 = getPos();
-        int xDiff = Math.abs(p2.x - p1.x);
-        int yDiff = Math.abs(p2.y - p1.y);
-        return (xDiff == yDiff && xDiff != 0 || xDiff == 0 ^ yDiff == 0) && emptyStraight(board, p1, p2);
+        if (getPos() != null) {
+            Point p1 = getPos();
+            int xDiff = Math.abs(p2.x - p1.x);
+            int yDiff = Math.abs(p2.y - p1.y);
+            return (xDiff == yDiff && xDiff != 0 || xDiff == 0 ^ yDiff == 0) && emptyStraight(board, p1, p2);
+        }
+        return false;
     }
 }

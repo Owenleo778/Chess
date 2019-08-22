@@ -23,8 +23,11 @@ public class Rook extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p2) {
-        Point p1 = getPos();
-        return p2.x - p1.x == 0 ^ p2.y - p1.y == 0 && emptyStraight(board, p1, p2);
+        if (getPos() != null) {
+            Point p1 = getPos();
+            return p2.x - p1.x == 0 ^ p2.y - p1.y == 0 && emptyStraight(board, p1, p2);
+        }
+        return false;
     }
 
 }

@@ -28,15 +28,18 @@ public class Pawn extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p2) {
-        Point p1 = getPos();
-        if (board.isEmptySpace(p2) && p1.x == p2.x){
-            if (p1.y + getColour().getValue() == p2.y){
-                return true;
-            } else if (board.isEmptySpace(p1.x, p1.y + getColour().getValue())) {
-                return p1.y + getColour().getValue() * 2 == p2.y && getColour() == Colour.BLACK ? p1.y == 1 : p1.y == 6;
-            }
-        } else if (!board.isEmptySpace(p2)){
+        if (getPos() != null) {
+            Point p1 = getPos();
+            if (board.isEmptySpace(p2) && p1.x == p2.x) {
+                if (p1.y + getColour().getValue() == p2.y) {
+                    return true;
+                } else if (board.isEmptySpace(p1.x, p1.y + getColour().getValue())) {
+                    return p1.y + getColour().getValue() * 2 == p2.y && getColour() == Colour.BLACK ? p1.y == 1 : p1.y == 6;
+                }
+            } else if (!board.isEmptySpace(p2)) {
                 return board.getPiece(p2).getColour() != getColour() && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
+            }
+            return false;
         }
         return false;
     }

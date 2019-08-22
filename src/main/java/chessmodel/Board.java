@@ -216,6 +216,8 @@ public class Board {
                 return false;
             if (p.canMove(this, pos)) {
                 Piece p2 = getPiece(pos);
+                if (p2 != null)
+                    p2.setPos(null);
                 Point pos2 = p.getPos();
                 setPiecePosition(p, pos);
                 if (!inCheck(turn)) {
@@ -224,8 +226,9 @@ public class Board {
                     return true;
                 } else {
                     setPiecePosition(p, pos2);
-                    if (p2 != null)
+                    if (p2 != null) {
                         setPiecePosition(p2, pos);
+                    }
                     return false;
                 }
             }

@@ -57,13 +57,17 @@ public class Window extends Application implements Initializable {
     public void start(Stage primaryStage) throws Exception {
         primaryStage.setTitle("Chess");
         primaryStage.setScene(new Scene(root));
-        primaryStage.sizeToScene();
+        //primaryStage.sizeToScene();
+        //primaryStage.minHeightProperty().bind(primaryStage.widthProperty().multiply(0.5));
+        //primaryStage.maxHeightProperty().bind(primaryStage.widthProperty().multiply(0.5));
         primaryStage.show();
 
     }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        turn.minWidthProperty().bind(centre.widthProperty());
+        turn.maxWidthProperty().bind(centre.widthProperty());
         tileGroup = new Group();
         PieceMover p = new PieceMover(this);
 
@@ -80,6 +84,8 @@ public class Window extends Application implements Initializable {
                 tileGroup.getChildren().add(tile);
             }
         }
+
+        centre.setMaxSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE);
         root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
     }
 
