@@ -2,8 +2,6 @@ package view;
 
 import chessmodel.Board;
 
-import chessmodel.piece.Colour;
-import chessmodel.piece.King;
 import chessmodel.piece.Piece;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -87,6 +85,7 @@ public class Window extends Application implements Initializable {
 
         centre.setMaxSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE);
         root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
+        root.autosize();
     }
 
     /**

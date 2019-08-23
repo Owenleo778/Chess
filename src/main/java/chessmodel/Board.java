@@ -219,21 +219,45 @@ public class Board {
                 if (p2 != null)
                     p2.setPos(null);
                 Point pos2 = p.getPos();
-                setPiecePosition(p, pos);
-                if (!inCheck(turn)) {
-                    turn = turn == Colour.BLACK ? Colour.WHITE : Colour.BLACK;
+
+                if (!verifyCheck(p, pos, pos2)) {
                     removePiece(pos);
                     return true;
-                } else {
-                    setPiecePosition(p, pos2);
-                    if (p2 != null) {
-                        setPiecePosition(p2, pos);
-                    }
-                    return false;
+                } else if (p2 != null) {
+                    setPiecePosition(p2, pos);
                 }
+
+            } else if (p instanceof chessmodel.piece.King && ((King) p).castleMove(this, pos)){
+                Point kingPos = p.getPos();
+                if ((!verifyCheck(p, pos, kingPos))){
+                    Point rookInit = new Point(kingPos.x - pos.x > 0 ? 0: WIDTH - 1, kingPos.y);
+                    Point rookEnd = new Point(kingPos.x + (rookInit.x == 0 ? -1: 1), kingPos.y);
+                    setPiecePosition(getPiece(rookInit), rookEnd);
+                    getPiece(rookEnd).setMoved(true);
+                    return true;
+                }
+
             }
         }
         return false;
+    }
+
+    /**
+     * Verifies that the piece in position pos will not leave their king in check, reverts if it does
+     * @param p piece to check it's move
+     * @param pos the end pos
+     * @param initPos the initial pos
+     * @return true if it's in check
+     */
+    private boolean verifyCheck(Piece p, Point pos, Point initPos){
+        setPiecePosition(p, pos);
+        if (!inCheck(turn)) {
+            turn = turn == Colour.BLACK ? Colour.WHITE : Colour.BLACK;
+            p.setMoved(true);
+            return false;
+        }
+        setPiecePosition(p, initPos);
+        return true;
     }
 
     /**
@@ -250,7 +274,7 @@ public class Board {
      * @param colour the king to check
      * @return true if the king is in check, false otherwise
      */
-    private boolean inCheck(Colour colour){
+    public boolean inCheck(Colour colour){
         if (colour == Colour.BLACK){
             return inCheck(bKing.getPos(), wPieces);
         } else if (colour == Colour.WHITE){
@@ -275,6 +299,27 @@ public class Board {
 
         return false;
     }
+
+    /**
+     * Checks if the specifed coloured king would be in check, if it was in point p instead
+     * @param p the point to check
+     * @return true if it would be, false otherwise
+     */
+    public boolean inCheckHere(Colour colour, Point p){
+        if (!isEmptySpace(p))
+            System.exit(0);
+
+        King king = colour == Colour.BLACK ? bKing : wKing;
+        Point kingPos = king.getPos();
+        king.setPos(p);
+        board[p.x][p.y] = king;
+        boolean inCheck = inCheck(colour);
+        board[p.x][p.y] = null;
+        king.setPos(kingPos);
+        return inCheck;
+    }
+
+
 
     /**
      * Checks if the colour's king is in checkmate

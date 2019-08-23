@@ -20,12 +20,14 @@ public abstract class Piece {
     private Point pos;
     private ImageView image;
     private boolean removed;
+    private boolean moved;
 
     public Piece(Colour colour, Image src){
         this(colour, null, src);
     }
 
     public Piece(Colour colour, Point pos, Image src){
+        moved = false;
         removed = false;
         this.colour = colour;
         image = new ImageView(src);
@@ -140,6 +142,22 @@ public abstract class Piece {
      */
     public boolean isRemoved(){
         return removed;
+    }
+
+    /**
+     * Returns whether this piece has been moved yet
+     * @return true if it has been moved
+     */
+    public boolean hasMoved(){
+        return moved;
+    }
+
+    /**
+     * Sets whether this piece has moved or not
+     * @param m true if it has moved
+     */
+    public void setMoved(boolean m){
+        moved = m;
     }
 
 }
