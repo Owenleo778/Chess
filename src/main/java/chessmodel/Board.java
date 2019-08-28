@@ -205,7 +205,17 @@ public class Board {
     }
 
     /**
-     * Moves the pieve to the specified position if it's a legal move
+     * Moves a piece to the specified position, returns true if it was legal, false otherwise
+     * (doesn't move piece if the move is illegal).
+     * @param m the move
+     * @return true if moved, false otherwise
+     */
+    public boolean movePiece(Move m){
+        return movePiece(m.getPiece(), m.getEndPoint());
+    }
+
+    /**
+     * Moves the piece to the specified position if it's a legal move
      * @param p the piece to move
      * @param pos the position to move to
      * @return returns true if the piece was moved, false otherwise
@@ -327,23 +337,42 @@ public class Board {
      * @return true if the king is in checkmate, false otherwise
      */
     private boolean verifyMate(Colour colour){
-        if (colour == Colour.BLACK){
-            return verifyMate(bKing.getPos());
-        } else if (colour == Colour.WHITE){
-            return verifyMate(wKing.getPos());
+        if (inCheck(colour)) {
+            if (colour == Colour.BLACK) {
+                return verifyMate(bKing, wPieces);
+            } else if (colour == Colour.WHITE) {
+                return verifyMate(wKing, bPieces);
+            }
         }
         return false;
     }
 
     /**
      * Checks if the king is in checkmate
-     * @param p the position of the king
+     * @param k the king
      * @return true if the king is in checkmate, false otherwise
      */
-    private boolean verifyMate(Point p){
-        // Check if in check first?
+    private boolean verifyMate(King k, ArrayList<Piece> pieces){
+
+
         return false;
     }
+
+    /**
+     * Returns a list of all possible moved for the specified colour
+     * @param c the colour of the pieces
+     * @return the list of possible moves
+     */
+    public ArrayList<Move> getAllMoves(Colour c){
+        ArrayList<Move> moves = new ArrayList<>();
+
+        return moves;
+    }
+
+
+
+
+
 
     public Group getImages(){
         Group g = new Group();

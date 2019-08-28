@@ -1,6 +1,7 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import chessmodel.Move;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
 import view.Window;
@@ -39,14 +40,15 @@ public abstract class Piece {
 
     /**
      * Returns a list of all possible moves
+     * Does NOT VERIFY CHECK
      * @param board the position of all pieces in play
-     * @param p the position of the piece
      * @return the list of possible moves
      */
-    public abstract ArrayList<Point> getMoves(Piece[][] board, Point p);
+    public abstract ArrayList<Move> getMoves(Board board);
 
     /**
-     * Returns true if this piece can move to the specified position. Is only called after both points are verified
+     * Returns true if this piece can move to the specified position. Is only called after both points are verified.
+     * Does NOT VERIFY CHECK
      * @param board the class holding information about the pieces
      * @param p the position to move to
      * @return true if it can make the move, false otherwise

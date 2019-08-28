@@ -84,7 +84,7 @@ public class Window extends Application implements Initializable {
         }
 
         centre.setMaxSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE);
-        root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE );
+        root.setPrefSize(Board.WIDTH * TILE_SIZE, Board.HEIGHT * TILE_SIZE);
         root.autosize();
     }
 
