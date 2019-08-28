@@ -1,6 +1,7 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import chessmodel.Move;
 import javafx.scene.image.Image;
 
 import java.awt.Point;
@@ -8,6 +9,7 @@ import java.util.ArrayList;
 
 /**
  * Represents the Pawn piece
+ * @author Owen Salvage
  */
 public class Pawn extends Piece {
 
@@ -19,12 +21,21 @@ public class Pawn extends Piece {
         super(colour, pos, new Image("images/" + (colour == Colour.BLACK ? "Black" : "White") + "_Pawn.png"));
     }
 
-
     @Override
-    public ArrayList<Point> getMoves(Piece[][] board, Point p) {return null;}
+    public ArrayList<Move> getMoves(Board board) {
+        ArrayList<Move> moves = new ArrayList<>();
 
+        for (int xdir = -1; xdir < 2; xdir++){
+            for (int ydir = 1; ydir < 3; ydir++){
+                Point pos = getPos();
+                if (canMove(board, new Point(xdir + pos.x, pos.y + ydir * getColour().getValue()))){
+                    moves.add(new Move(this, new Point(xdir + pos.x, pos.y + ydir * getColour().getValue())));
+                }
+            }
+        }
 
-    //Needs rework for En passant move \/ \/ \/ \/ \/ ------------------------------------------
+        return moves;
+    }
 
     @Override
     public boolean canMove(Board board, Point p2) {
@@ -34,12 +45,19 @@ public class Pawn extends Piece {
                 if (p1.y + getColour().getValue() == p2.y) {
                     return true;
                 } else if (board.isEmptySpace(p1.x, p1.y + getColour().getValue())) {
-                    return p1.y + getColour().getValue() * 2 == p2.y && !hasMoved();
+
+                    if ( p1.y + getColour().getValue() * 2 == p2.y && !hasMoved()){
+                        board.setEnPassant(new Point(p1.x, p1.y + getColour().getValue()));
+                        return true;
+                    }
                 }
-            } else if (!board.isEmptySpace(p2)) {
-                return board.getPiece(p2).getColour() != getColour() && Math.abs(p1.x - p2.x) == 1 && p1.y + getColour().getValue() == p2.y;
+            } else if (Math.abs(p1.x - p2.x) == 1) {
+                if (!board.isEmptySpace(p2)) {
+                    return board.getPiece(p2).getColour() != getColour() && p1.y + getColour().getValue() == p2.y;
+                } else if ( board.canEnPassant()){
+                    return board.getEnPassant() == p2;
+                }
             }
-            return false;
         }
         return false;
     }

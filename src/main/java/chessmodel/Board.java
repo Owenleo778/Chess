@@ -20,8 +20,10 @@ public class Board {
     private King wKing;
     private ArrayList<Piece> bPieces;
     private ArrayList<Piece> wPieces;
+    private Point enPassant;
 
     public Board(){
+        enPassant = null;
         board = new Piece[WIDTH][HEIGHT];
         turn = Colour.WHITE;
 
@@ -224,6 +226,7 @@ public class Board {
         if (p.getColour() == turn) {
             if (p.getPos() == null)
                 return false;
+            Point passentCheck = getEnPassant();
             if (p.canMove(this, pos)) {
                 Piece p2 = getPiece(pos);
                 if (p2 != null)
@@ -231,6 +234,8 @@ public class Board {
                 Point pos2 = p.getPos();
 
                 if (!verifyCheck(p, pos, pos2)) {
+                    if (passentCheck != null && passentCheck == getEnPassant())
+                        setEnPassant(null);
                     removePiece(pos);
                     return true;
                 } else if (p2 != null) {
@@ -369,10 +374,17 @@ public class Board {
         return moves;
     }
 
+    public void setEnPassant(Point p){
+        enPassant = p;
+    }
 
+    public Point getEnPassant(){
+        return enPassant;
+    }
 
-
-
+    public boolean canEnPassant(){
+        return enPassant != null;
+    }
 
     public Group getImages(){
         Group g = new Group();
