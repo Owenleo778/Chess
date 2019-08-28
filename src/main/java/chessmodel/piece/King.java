@@ -73,7 +73,7 @@ public class King extends Piece {
             if (rook.hasMoved() || !emptyStraight(board, kP, new Point(rookx == 0 ? 1: Board.WIDTH - 2, p.y))) // 1.b, 2
                 return false;
 
-            return !board.inCheckHere(getColour(), new Point(kP.x + (rookx == 0 ? -1: 1), kP.y)); //4
+            return !board.inCheckHere(this, new Point(kP.x + (rookx == 0 ? -1: 1), kP.y)); //4
 
         }
         return false;

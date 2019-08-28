@@ -118,10 +118,6 @@ public class Board {
         }
     }
 
-    public static void main(String[] args) {
-        Board b = new Board();
-    }
-
     /**
      * Checks if the coordinate is in range (between 0 and 7
      * @param pos the coordinate
@@ -189,11 +185,6 @@ public class Board {
         return board[p.x][p.y].getColour();
     }
 
-
-    //change to set piece position, make move piece a different function that checks more
-
-
-    //ADD VERIFICATION NOT LEAVING IN CHECKMATE
     /**
      * Sets the piece to the specified point
      * @param p the piece to move
@@ -316,21 +307,19 @@ public class Board {
     }
 
     /**
-     * Checks if the specifed coloured king would be in check, if it was in point p instead
+     * Checks if the specified piece would be in check, if it was in point p instead
      * @param p the point to check
      * @return true if it would be, false otherwise
      */
-    public boolean inCheckHere(Colour colour, Point p){
-        if (!isEmptySpace(p))
-            System.exit(0);
-
-        King king = colour == Colour.BLACK ? bKing : wKing;
-        Point kingPos = king.getPos();
-        king.setPos(p);
-        board[p.x][p.y] = king;
-        boolean inCheck = inCheck(colour);
-        board[p.x][p.y] = null;
-        king.setPos(kingPos);
+    public boolean inCheckHere(Piece p, Point pos2){
+        //King king = colour == Colour.BLACK ? bKing : wKing;
+        Point pos = p.getPos();
+        p.setPos(pos2);
+        Piece otherP =  board[pos2.x][pos2.y];
+        board[pos2.x][pos2.y] = p;
+        boolean inCheck = inCheck(p.getColour());
+        board[pos2.x][pos2.y] = otherP;
+        p.setPos(pos);
         return inCheck;
     }
 
@@ -358,9 +347,7 @@ public class Board {
      * @return true if the king is in checkmate, false otherwise
      */
     private boolean verifyMate(King k, ArrayList<Piece> pieces){
-
-
-        return false;
+        return getAllMoves(k.getColour()).size() == 0 && inCheck(k.getColour());
     }
 
     /**
@@ -369,7 +356,27 @@ public class Board {
      * @return the list of possible moves
      */
     public ArrayList<Move> getAllMoves(Colour c){
+        if (c == Colour.BLACK){
+            return getAllMoves(bPieces);
+        } else {
+            return getAllMoves(wPieces);
+        }
+    }
+
+    /**
+     * Returns a list of all possible moved for the specified pieces
+     * @param pieces the list of pieces
+     * @return the list of possible moves
+     */
+    public ArrayList<Move> getAllMoves(ArrayList<Piece> pieces){
         ArrayList<Move> moves = new ArrayList<>();
+        for (Piece p : pieces){
+            ArrayList<Move> pMoves = p.getMoves(this);
+            for (Move m : pMoves){
+                if (!inCheckHere(m.getPiece(), m.getEndPoint()))
+                    moves.add(m);
+            }
+        }
 
         return moves;
     }
