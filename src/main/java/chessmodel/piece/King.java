@@ -24,14 +24,9 @@ public class King extends Piece {
 
         for (int xdir = -1; xdir < 2; xdir++){
             for (int ydir = -1; ydir < 2; ydir++){
-                int x = xdir;
-                int y = ydir;
                 Point pos = getPos();
-
-                if (canMove(board, new Point(x + pos.x, pos.y + y))){
-                    moves.add(new Move(this, new Point(x + pos.x, pos.y + y)));
-                    x += xdir;
-                    y += ydir;
+                if (canMove(board, new Point(xdir + pos.x, pos.y + ydir))){
+                    moves.add(new Move(this, new Point(xdir + pos.x, pos.y + ydir)));
                 }
             }
         }

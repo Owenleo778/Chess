@@ -1,6 +1,7 @@
 package chessmodel.piece;
 
 import chessmodel.Board;
+import chessmodel.Move;
 import javafx.scene.image.Image;
 
 import java.awt.Point;
@@ -17,7 +18,20 @@ public class Knight extends Piece{
     }
 
     @Override
-    public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
+    public ArrayList<Move> getMoves(Board board) {
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (int xdir = -2; xdir < 3; xdir++){
+            for (int ydir = -2; ydir < 3; ydir++){
+                Point pos = getPos();
+                if (canMove(board, new Point(xdir + pos.x, pos.y + ydir))){
+                    moves.add(new Move(this, new Point(xdir + pos.x, pos.y + ydir)));
+                }
+            }
+        }
+
+        return moves;
+    }
 
     @Override
     public boolean canMove(Board board, Point p2) {
