@@ -4,6 +4,8 @@ import chessmodel.Board;
 
 import java.awt.Point;
 import java.util.ArrayList;
+
+import chessmodel.Move;
 import javafx.scene.image.Image;
 
 public class King extends Piece {
@@ -17,7 +19,25 @@ public class King extends Piece {
     }
 
     @Override
-    public ArrayList<Point> getMoves(Piece[][] board, Point p) { return null; }
+    public ArrayList<Move> getMoves(Board board) {
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for (int xdir = -1; xdir < 2; xdir++){
+            for (int ydir = -1; ydir < 2; ydir++){
+                int x = xdir;
+                int y = ydir;
+                Point pos = getPos();
+
+                if (canMove(board, new Point(x + pos.x, pos.y + y))){
+                    moves.add(new Move(this, new Point(x + pos.x, pos.y + y)));
+                    x += xdir;
+                    y += ydir;
+                }
+            }
+        }
+
+        return moves;
+    }
 
     @Override
     public boolean canMove(Board board, Point p) {
