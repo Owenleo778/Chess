@@ -2,6 +2,7 @@ package view;
 
 import chessmodel.Board;
 
+import chessmodel.piece.Colour;
 import chessmodel.piece.Piece;
 import javafx.application.Application;
 import javafx.fxml.FXML;
@@ -114,8 +115,10 @@ public class Window extends Application implements Initializable {
     public void nextTurn(){
         if (turn.getText().equals("White's Turn")){
             turn.setText("Black's Turn");
+            System.out.println(board.verifyMate(Colour.BLACK));
         } else {
             turn.setText("White's Turn");
+            System.out.println(board.verifyMate(Colour.WHITE));
         }
     }
 

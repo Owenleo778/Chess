@@ -20,7 +20,6 @@ public abstract class Piece {
     private Colour colour;
     private Point pos;
     private ImageView image;
-    private boolean removed;
     private boolean moved;
 
     public Piece(Colour colour, Image src){
@@ -29,7 +28,6 @@ public abstract class Piece {
 
     public Piece(Colour colour, Point pos, Image src){
         moved = false;
-        removed = false;
         this.colour = colour;
         image = new ImageView(src);
         image.setFitWidth(view.Window.TILE_SIZE);
@@ -135,16 +133,9 @@ public abstract class Piece {
      * Sets this piece to be 'removed
      */
     public void remove(){
-        removed = true;
+        //image = null;
     }
 
-    /**
-     * Returns whether this piece has been removed or not
-     * @return true if it has been removed
-     */
-    public boolean isRemoved(){
-        return removed;
-    }
 
     /**
      * Returns whether this piece has been moved yet

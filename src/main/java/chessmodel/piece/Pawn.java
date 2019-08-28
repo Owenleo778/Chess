@@ -55,7 +55,7 @@ public class Pawn extends Piece {
                 if (!board.isEmptySpace(p2)) {
                     return board.getPiece(p2).getColour() != getColour() && p1.y + getColour().getValue() == p2.y;
                 } else if ( board.canEnPassant()){
-                    return board.getEnPassant() == p2;
+                    return board.getEnPassant().x == p2.x && board.getEnPassant().y == p2.y;
                 }
             }
         }

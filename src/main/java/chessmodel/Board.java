@@ -21,8 +21,10 @@ public class Board {
     private ArrayList<Piece> bPieces;
     private ArrayList<Piece> wPieces;
     private Point enPassant;
+    private Piece pieceToRemove;
 
     public Board(){
+        pieceToRemove = null;
         enPassant = null;
         board = new Piece[WIDTH][HEIGHT];
         turn = Colour.WHITE;
@@ -160,8 +162,16 @@ public class Board {
      * @param p the position to check
      */
     public void removePiece(Point p){
-        if (!isEmptySpace(p))
-            board[p.x][p.y].remove();
+        if (!isEmptySpace(p)) {
+            Piece piece =  board[p.x][p.y];
+            piece.remove();
+            if (piece.getColour() == Colour.BLACK){
+                bPieces.remove(piece);
+            } else {
+                wPieces.remove(piece);
+            }
+        }
+
 
         /*
         ArrayList<Piece> pieces = new ArrayList<>();
@@ -217,7 +227,7 @@ public class Board {
         if (p.getColour() == turn) {
             if (p.getPos() == null)
                 return false;
-            Point passentCheck = getEnPassant();
+            Point passeatCheck = getEnPassant();
             if (p.canMove(this, pos)) {
                 Piece p2 = getPiece(pos);
                 if (p2 != null)
@@ -225,7 +235,15 @@ public class Board {
                 Point pos2 = p.getPos();
 
                 if (!verifyCheck(p, pos, pos2)) {
-                    if (passentCheck != null && passentCheck == getEnPassant())
+                    if (enPassant != null && enPassant.x == pos.x && enPassant.y == pos.y){
+                        int yadd = p.getColour() == Colour.BLACK ? Colour.WHITE.getValue() : Colour.BLACK.getValue();
+                        Point pawnPoint = new Point(pos.x, pos.y + yadd);
+                        setPieceToRemove(getPiece(pawnPoint));
+                        board[pawnPoint.x][pawnPoint.y].setPos(null);
+                        board[pawnPoint.x][pawnPoint.y] = null;
+                        removePiece(pawnPoint);
+                    }
+                    if (passeatCheck != null && passeatCheck == getEnPassant())
                         setEnPassant(null);
                     removePiece(pos);
                     return true;
@@ -296,12 +314,10 @@ public class Board {
      * @return true if the king is in check, false otherwise
      */
     private boolean inCheck(Point k, ArrayList<Piece> pieces){
-
         for (Piece p : pieces){
             if (p.canMove(this, k))
                 return true;
         }
-
 
         return false;
     }
@@ -323,14 +339,12 @@ public class Board {
         return inCheck;
     }
 
-
-
     /**
      * Checks if the colour's king is in checkmate
      * @param colour the king to check
      * @return true if the king is in checkmate, false otherwise
      */
-    private boolean verifyMate(Colour colour){
+    public boolean verifyMate(Colour colour){
         if (inCheck(colour)) {
             if (colour == Colour.BLACK) {
                 return verifyMate(bKing, wPieces);
@@ -391,6 +405,14 @@ public class Board {
 
     public boolean canEnPassant(){
         return enPassant != null;
+    }
+
+    public void setPieceToRemove(Piece p){
+        pieceToRemove = p;
+    }
+
+    public Piece getPieceToRemove(){
+        return pieceToRemove;
     }
 
     public Group getImages(){

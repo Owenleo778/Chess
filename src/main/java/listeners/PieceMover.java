@@ -36,8 +36,12 @@ public class PieceMover implements EventHandler<MouseEvent> {
 
                     if (w.getBoard().movePiece(p, pos)){
                         w.nextTurn();
-                        if (p2 != null)
+                        if (p2 != null) {
                             w.removePiece(p2);
+                        } else if (w.getBoard().getPieceToRemove() != null){
+                            w.removePiece(w.getBoard().getPieceToRemove());
+                            w.getBoard().setPieceToRemove(null);
+                        }
                     }
 
                     p = null;
