@@ -164,6 +164,9 @@ public class Board {
     public void removePiece(Point p){
         if (!isEmptySpace(p)) {
             Piece piece =  board[p.x][p.y];
+            setPieceToRemove(piece);
+            board[p.x][p.y].setPos(null);
+            board[p.x][p.y] = null;
             piece.remove();
             if (piece.getColour() == Colour.BLACK){
                 bPieces.remove(piece);
@@ -171,24 +174,6 @@ public class Board {
                 wPieces.remove(piece);
             }
         }
-
-
-        /*
-        ArrayList<Piece> pieces = new ArrayList<>();
-        for (Piece piece : bPieces) {
-            if (!piece.isRemoved())
-                pieces.add(piece);
-        }
-        bPieces = pieces;
-
-        pieces = new ArrayList<>();
-        for (Piece piece : wPieces) {
-            if (!piece.isRemoved())
-                pieces.add(piece);
-        }
-        wPieces = pieces;
-         */
-
     }
 
     public Colour getColour(Point p) throws NullPointerException {
@@ -224,11 +209,44 @@ public class Board {
      * @return returns true if the piece was moved, false otherwise
      */
     public boolean movePiece(Piece p, Point pos){
+        if (p.getColour() != turn || p.getPos() == null)
+            return false;
+
+        Point passantCheck = getEnPassant();
+        if (p.canMove(this, pos) && !inCheckHere(p, pos)) {
+
+            if (enPassant != null && enPassant.x == pos.x && enPassant.y == pos.y){ // removes other pawn in enpassant move
+                int yadd = p.getColour() == Colour.BLACK ? Colour.WHITE.getValue() : Colour.BLACK.getValue();
+                Point pawnPoint = new Point(pos.x, pos.y + yadd);
+                removePiece(pawnPoint);
+                if (passantCheck != null && passantCheck == getEnPassant())
+                    setEnPassant(null);
+            } else {
+                removePiece(pos);
+            }
+
+            setPiecePosition(p, pos);
+            return true;
+        } else if (p instanceof chessmodel.piece.King && ((King) p).castleMove(this, pos)){
+            Point kingPos = p.getPos();
+            if ((!verifyCheck(p, pos, kingPos))){
+                Point rookInit = new Point(kingPos.x - pos.x > 0 ? 0: WIDTH - 1, kingPos.y);
+                Point rookEnd = new Point(kingPos.x + (rookInit.x == 0 ? -1: 1), kingPos.y);
+                setPiecePosition(getPiece(rookInit), rookEnd);
+                getPiece(rookEnd).setMoved(true);
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /*
+    public boolean movePiece(Piece p, Point pos){
         if (p.getColour() == turn) {
             if (p.getPos() == null)
                 return false;
             Point passeatCheck = getEnPassant();
-            if (p.canMove(this, pos)) {
+            if (p.canMove(this, pos) ) {
                 Piece p2 = getPiece(pos);
                 if (p2 != null)
                     p2.setPos(null);
@@ -265,6 +283,7 @@ public class Board {
         }
         return false;
     }
+     */
 
     /**
      * Verifies that the piece in position pos will not leave their king in check, reverts if it does
@@ -323,19 +342,22 @@ public class Board {
     }
 
     /**
-     * Checks if the specified piece would be in check, if it was in point p instead
-     * @param p the point to check
-     * @return true if it would be, false otherwise
+     * Returns true if the piece's king would be in check if it was instead at position pos2
+     * @param p the piece in question
+     * @param pos2 the queried position
+     * @return true if it would leave the king in check, false otherwise
      */
     public boolean inCheckHere(Piece p, Point pos2){
         //King king = colour == Colour.BLACK ? bKing : wKing;
         Point pos = p.getPos();
         p.setPos(pos2);
+        board[pos.x][pos.y] = null;
         Piece otherP =  board[pos2.x][pos2.y];
         board[pos2.x][pos2.y] = p;
         boolean inCheck = inCheck(p.getColour());
         board[pos2.x][pos2.y] = otherP;
         p.setPos(pos);
+        board[pos.x][pos.y] = p;
         return inCheck;
     }
 
@@ -424,4 +446,7 @@ public class Board {
         return g;
     }
 
+    public void setTurn(Colour c){
+        turn = c;
+    }
 }

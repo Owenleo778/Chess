@@ -39,7 +39,7 @@ public class Pawn extends Piece {
 
     @Override
     public boolean canMove(Board board, Point p2) {
-        if (getPos() != null) {
+        if (getPos() != null && Board.inRange(p2)) {
             Point p1 = getPos();
             if (board.isEmptySpace(p2) && p1.x == p2.x) {
                 if (p1.y + getColour().getValue() == p2.y) {

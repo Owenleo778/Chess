@@ -115,9 +115,11 @@ public class Window extends Application implements Initializable {
     public void nextTurn(){
         if (turn.getText().equals("White's Turn")){
             turn.setText("Black's Turn");
+            board.setTurn(Colour.BLACK);
             System.out.println(board.verifyMate(Colour.BLACK));
         } else {
             turn.setText("White's Turn");
+            board.setTurn(Colour.WHITE);
             System.out.println(board.verifyMate(Colour.WHITE));
         }
     }

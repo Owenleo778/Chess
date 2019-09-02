@@ -61,7 +61,7 @@ public abstract class Piece {
      * @return true if it can safely move there, false otherwise
      */
     protected boolean validEndPos(Board board, Point p){
-        return board.isEmptySpace(p) || board.getColour(p) != getColour();
+        return Board.inRange(p) && (board.isEmptySpace(p) || board.getColour(p) != getColour());
     }
 
     /**
