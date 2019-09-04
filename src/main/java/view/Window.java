@@ -113,15 +113,27 @@ public class Window extends Application implements Initializable {
     }
 
     public void nextTurn(){
-        if (turn.getText().equals("White's Turn")){
+        if (board.getTurn() == Colour.WHITE){
+            if (board.verifyMate(Colour.BLACK)){
+                gameOver("White");
+            }
+
             turn.setText("Black's Turn");
             board.setTurn(Colour.BLACK);
-            System.out.println(board.verifyMate(Colour.BLACK));
         } else {
+
+            if (board.verifyMate(Colour.WHITE)){
+                gameOver("Black");
+            }
             turn.setText("White's Turn");
             board.setTurn(Colour.WHITE);
-            System.out.println(board.verifyMate(Colour.WHITE));
         }
+    }
+
+    public void gameOver(String colour){
+        //
+        System.out.println(colour + " wins!");
+        //
     }
 
     public void setOpenHand(){

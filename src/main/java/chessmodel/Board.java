@@ -202,6 +202,9 @@ public class Board {
         return movePiece(m.getPiece(), m.getEndPoint());
     }
 
+
+    //Currently can't move out of check by capturing the attacking piece
+
     /**
      * Moves the piece to the specified position if it's a legal move
      * @param p the piece to move
@@ -239,51 +242,6 @@ public class Board {
         }
         return false;
     }
-
-    /*
-    public boolean movePiece(Piece p, Point pos){
-        if (p.getColour() == turn) {
-            if (p.getPos() == null)
-                return false;
-            Point passeatCheck = getEnPassant();
-            if (p.canMove(this, pos) ) {
-                Piece p2 = getPiece(pos);
-                if (p2 != null)
-                    p2.setPos(null);
-                Point pos2 = p.getPos();
-
-                if (!verifyCheck(p, pos, pos2)) {
-                    if (enPassant != null && enPassant.x == pos.x && enPassant.y == pos.y){
-                        int yadd = p.getColour() == Colour.BLACK ? Colour.WHITE.getValue() : Colour.BLACK.getValue();
-                        Point pawnPoint = new Point(pos.x, pos.y + yadd);
-                        setPieceToRemove(getPiece(pawnPoint));
-                        board[pawnPoint.x][pawnPoint.y].setPos(null);
-                        board[pawnPoint.x][pawnPoint.y] = null;
-                        removePiece(pawnPoint);
-                    }
-                    if (passeatCheck != null && passeatCheck == getEnPassant())
-                        setEnPassant(null);
-                    removePiece(pos);
-                    return true;
-                } else if (p2 != null) {
-                    setPiecePosition(p2, pos);
-                }
-
-            } else if (p instanceof chessmodel.piece.King && ((King) p).castleMove(this, pos)){
-                Point kingPos = p.getPos();
-                if ((!verifyCheck(p, pos, kingPos))){
-                    Point rookInit = new Point(kingPos.x - pos.x > 0 ? 0: WIDTH - 1, kingPos.y);
-                    Point rookEnd = new Point(kingPos.x + (rookInit.x == 0 ? -1: 1), kingPos.y);
-                    setPiecePosition(getPiece(rookInit), rookEnd);
-                    getPiece(rookEnd).setMoved(true);
-                    return true;
-                }
-
-            }
-        }
-        return false;
-    }
-     */
 
     /**
      * Verifies that the piece in position pos will not leave their king in check, reverts if it does
@@ -353,10 +311,14 @@ public class Board {
         p.setPos(pos2);
         board[pos.x][pos.y] = null;
         Piece otherP =  board[pos2.x][pos2.y];
+        if (otherP != null)
+            otherP.setPos(null);
         board[pos2.x][pos2.y] = p;
         boolean inCheck = inCheck(p.getColour());
         board[pos2.x][pos2.y] = otherP;
         p.setPos(pos);
+        if (otherP != null)
+            otherP.setPos(pos2);
         board[pos.x][pos.y] = p;
         return inCheck;
     }
@@ -448,5 +410,9 @@ public class Board {
 
     public void setTurn(Colour c){
         turn = c;
+    }
+
+    public Colour getTurn(){
+        return turn;
     }
 }
